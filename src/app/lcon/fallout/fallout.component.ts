@@ -40,12 +40,11 @@ export class FalloutComponent implements OnInit, AfterViewInit {
   chartType: ChartType = 'bar';
   chartOptions: ChartOptions = {
     plugins: {
-      legend: { display: false },
+      legend: {
+        display: false,
+      },
     },
     scales: {
-      x: {
-        ticks: { display: false },
-      },
       y: { beginAtZero: true },
     },
   };

@@ -168,8 +168,6 @@ export class SummaryComponent implements OnInit {
       });
     }
 
-    console.log(data);
-
     this.monthlyTotals = [];
 
     Object.keys(data).forEach((key) => {
