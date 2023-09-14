@@ -17,11 +17,11 @@ export class ApiService {
   /* CRUD functions */
 
   // HttpClient API get() method => fetch count based on given where clause
-  getCount(where: string): Promise<any> {
-    return this.http
-      .get(this.apiUrl + '/lcon/postgrescount', { withCredentials: true, params: { query: where } })
-      .pipe(retry(1), catchError(this.handleError))
-      .toPromise();
+  getCount(filter: Filter): Observable<ApiResponse<number>> {
+    return this.http.get<ApiResponse<any>>(this.apiUrl + '/lcon/postgrescount', {
+      withCredentials: true,
+      params: { ...filter },
+    });
   }
 
   getPastWeekSummary(where: string): Promise<any> {

@@ -76,17 +76,41 @@ export class FalloutComponent implements OnInit, AfterViewInit {
   }
 
   private async loadData() {
-    await this.apiService.getCount(getSummaryQuery(SummaryType.TOTAL_OUTBOUND)).then((res) => {
-      this.totalAttempted = Number(res.data);
-    });
-    await this.apiService.getCount(getSummaryQuery(SummaryType.TOTAL_SUCCESSFUL)).then((res) => {
-      this.totalSuccessful = Number(res.data);
-    });
-    await this.apiService.getCount(getSummaryQuery(SummaryType.TOTAL_FAILED)).then((res) => {
-      this.totalFailed = Number(res.data);
-    });
+    const promises = [];
+    promises.push(
+      new Promise((resolve) => {
+        this.apiService
+          .getCount({ rawWhere: getSummaryQuery(SummaryType.TOTAL_OUTBOUND), ...this.dateFilter })
+          .subscribe((res) => {
+            this.totalAttempted = Number(res.result);
+            resolve(res.result);
+          });
+      }),
+    );
+    promises.push(
+      new Promise((resolve) => {
+        this.apiService
+          .getCount({ rawWhere: getSummaryQuery(SummaryType.TOTAL_SUCCESSFUL), ...this.dateFilter })
+          .subscribe((res) => {
+            this.totalSuccessful = Number(res.result);
+            resolve(res.result);
+          });
+      }),
+    );
+    promises.push(
+      new Promise((resolve) => {
+        this.apiService
+          .getCount({ rawWhere: getSummaryQuery(SummaryType.TOTAL_FAILED), ...this.dateFilter })
+          .subscribe((res) => {
+            this.totalFailed = Number(res.result);
+            resolve(res.result);
+          });
+      }),
+    );
 
-    this.loadChart();
+    Promise.all(promises).then((res) => {
+      this.loadChart();
+    });
   }
 
   private loadChart(): void {
@@ -134,6 +158,7 @@ export class FalloutComponent implements OnInit, AfterViewInit {
   handleChangeDateFilter(value: { start: string; end: string }) {
     this.dateFilter = value;
     this.getLconList();
+    this.loadData();
   }
 
   exportXls() {

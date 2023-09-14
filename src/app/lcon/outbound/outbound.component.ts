@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../api.service';
-import { SummaryType } from '../../@core/enums';
+import { SummaryType } from '@enums';
 
 @Component({
   selector: 'app-outbound',
@@ -11,6 +11,7 @@ export class OutboundComponent implements OnInit {
   readonly SummaryType = SummaryType;
 
   isLoading: boolean = true;
+  dateFilter: { start: string; end: string };
 
   keys = new Map<number, string>()
     .set(0, 'firstOutbound')
@@ -35,16 +36,26 @@ export class OutboundComponent implements OnInit {
 
   private async loadData() {
     this.isLoading = true;
+    const promises = [];
     for (let i = 0; i < this.params.size; i++) {
-      await this.api.getCount(this.params.get(this.keys.get(i))).then((res) => {
-        this.queries.set(this.keys.get(i), Number(res.data));
-      });
+      promises.push(
+        new Promise((resolve) => {
+          this.api.getCount({ rawWhere: this.params.get(this.keys.get(i)), ...this.dateFilter }).subscribe((res) => {
+            this.queries.set(this.keys.get(i), Number(res.result));
+            resolve(res.result);
+          });
+        }),
+      );
     }
-    this.queries.set(this.keys.get(2), this.queries.get('firstOutbound') + this.queries.get('secondOutbound'));
-    this.isLoading = false;
+
+    Promise.all(promises).then((res) => {
+      this.queries.set(this.keys.get(2), this.queries.get('firstOutbound') + this.queries.get('secondOutbound'));
+      this.isLoading = false;
+    });
   }
 
   handleChangeDateFilter(value: any) {
-    console.log('Change Date Filter', value);
+    this.dateFilter = value;
+    this.loadData();
   }
 }

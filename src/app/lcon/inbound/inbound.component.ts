@@ -12,6 +12,7 @@ import { getSummaryQuery } from '../../@core/utils';
 export class InboundComponent implements OnInit {
   readonly SummaryType = SummaryType;
   isLoading: boolean = true;
+  dateFilter: { start: string; end: string };
 
   chartData: ChartData;
   chartType: ChartType = 'bar';
@@ -41,23 +42,60 @@ export class InboundComponent implements OnInit {
 
   private async loadData() {
     this.isLoading = true;
-    await this.api.getCount(getSummaryQuery(SummaryType.TOTAL_INBOUND)).then((res) => {
-      this.totalInbound = Number(res.data);
+    const promises = [];
+    promises.push(
+      new Promise((resolve) => {
+        this.api
+          .getCount({ rawWhere: getSummaryQuery(SummaryType.TOTAL_INBOUND), ...this.dateFilter })
+          .subscribe((res) => {
+            this.totalInbound = Number(res.result);
+            resolve(res.result);
+          });
+      }),
+    );
+    promises.push(
+      new Promise((resolve) => {
+        this.api.getCount({ rawWhere: getSummaryQuery(SummaryType.NO_CHANGE), ...this.dateFilter }).subscribe((res) => {
+          this.noChange = Number(res.result);
+          resolve(res.result);
+        });
+      }),
+    );
+    promises.push(
+      new Promise((resolve) => {
+        this.api
+          .getCount({ rawWhere: getSummaryQuery(SummaryType.LCON_CHANGE), ...this.dateFilter })
+          .subscribe((res) => {
+            this.lconChange = Number(res.result);
+            resolve(res.result);
+          });
+      }),
+    );
+    promises.push(
+      new Promise((resolve) => {
+        this.api
+          .getCount({ rawWhere: getSummaryQuery(SummaryType.ALCON_CHANGE), ...this.dateFilter })
+          .subscribe((res) => {
+            this.alconChange = Number(res.result);
+            resolve(res.result);
+          });
+      }),
+    );
+    promises.push(
+      new Promise((resolve) => {
+        this.api
+          .getCount({ rawWhere: getSummaryQuery(SummaryType.DEMARC_CHANGE), ...this.dateFilter })
+          .subscribe((res) => {
+            this.demarcChange = Number(res.result);
+            resolve(res.result);
+          });
+      }),
+    );
+
+    Promise.all(promises).then((res) => {
+      this.loadChart();
+      this.isLoading = false;
     });
-    await this.api.getCount(getSummaryQuery(SummaryType.NO_CHANGE)).then((res) => {
-      this.noChange = Number(res.data);
-    });
-    await this.api.getCount(getSummaryQuery(SummaryType.LCON_CHANGE)).then((res) => {
-      this.lconChange = Number(res.data);
-    });
-    await this.api.getCount(getSummaryQuery(SummaryType.ALCON_CHANGE)).then((res) => {
-      this.alconChange = Number(res.data);
-    });
-    await this.api.getCount(getSummaryQuery(SummaryType.DEMARC_CHANGE)).then((res) => {
-      this.demarcChange = Number(res.data);
-    });
-    this.loadChart();
-    this.isLoading = false;
   }
 
   private loadChart(): void {
@@ -74,6 +112,7 @@ export class InboundComponent implements OnInit {
   }
 
   handleChangeDateFilter(value: any) {
-    console.log('Change Date Filter', value);
+    this.dateFilter = value;
+    this.loadData();
   }
 }

@@ -14,6 +14,7 @@ export class SummaryComponent implements OnInit {
   readonly SummaryType = SummaryType;
   isLoading: boolean = true;
   currentYear = new Date().getFullYear();
+  dateFilter: { start: string; end: string };
 
   chartData: ChartData;
   chartType: ChartType = 'doughnut';
@@ -61,23 +62,32 @@ export class SummaryComponent implements OnInit {
 
   private async loadData() {
     this.isLoading = true;
+    const promises = [];
     for (let i = 0; i < this.params.size; i++) {
-      await this.api.getCount(this.params.get(this.keys.get(i))).then((res) => {
-        this.queries.set(this.keys.get(i), Number(res.data));
-      });
+      promises.push(
+        new Promise((resolve) => {
+          this.api.getCount({ rawWhere: this.params.get(this.keys.get(i)), ...this.dateFilter }).subscribe((res) => {
+            this.queries.set(this.keys.get(i), Number(res.result));
+            resolve(res.result);
+          });
+        }),
+      );
     }
-    this.queries.set(this.keys.get(6), this.queries.get('firstOutbound') + this.queries.get('secondOutbound'));
-    this.queries.set(this.keys.get(7), this.queries.get('firstInbound') + this.queries.get('secondInbound'));
-    this.queries.set(this.keys.get(8), this.queries.get('invalid') + this.queries.get('noResponse'));
-    this.queries.set(
-      this.keys.get(9),
-      this.queries.get('totalOutbound') + this.queries.get('totalInbound') + this.queries.get('totalUnreachable'),
-    );
 
-    this.loadChart();
-    await this.getPastWeekSummary();
-    await this.getPastYearSummary();
-    this.isLoading = false;
+    Promise.all(promises).then(() => {
+      this.queries.set(this.keys.get(6), this.queries.get('firstOutbound') + this.queries.get('secondOutbound'));
+      this.queries.set(this.keys.get(7), this.queries.get('firstInbound') + this.queries.get('secondInbound'));
+      this.queries.set(this.keys.get(8), this.queries.get('invalid') + this.queries.get('noResponse'));
+      this.queries.set(
+        this.keys.get(9),
+        this.queries.get('totalOutbound') + this.queries.get('totalInbound') + this.queries.get('totalUnreachable'),
+      );
+
+      this.loadChart();
+      this.getPastWeekSummary();
+      this.getPastYearSummary();
+      this.isLoading = false;
+    });
   }
 
   private loadChart(): void {
@@ -98,7 +108,7 @@ export class SummaryComponent implements OnInit {
   }
 
   handleChangeDateFilter(value: any) {
-    console.log('Change Date Filter', value);
+    this.dateFilter = value;
   }
 
   private async getPastWeekSummary() {
