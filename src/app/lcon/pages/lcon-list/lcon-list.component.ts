@@ -233,6 +233,7 @@ export class LconListComponent {
               'Century Update': rawData.centuryupdate,
               Action: rawData.action,
               'Exception Message': rawData.exceptionmessage,
+              'CPM Name': rawData.cpmemailupdate,
             };
           });
 

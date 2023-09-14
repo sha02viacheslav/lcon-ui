@@ -28,7 +28,7 @@ import { SummaryType } from '@enums';
   ],
 })
 export class FalloutComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['enddate', 'orderacceptancedate', 'sr', 'serviceorderid'];
+  displayedColumns: string[] = ['enddate', 'orderacceptancedate', 'sr', 'serviceorderid', 'carrier', 'cpmemailupdate'];
   columnsToDisplayWithExpand: string[] = [...this.displayedColumns, 'expand'];
   expandedElement: Lcon | null;
   dataSource: MatTableDataSource<Lcon>;
@@ -197,6 +197,7 @@ export class FalloutComponent implements OnInit, AfterViewInit {
               'ALCON Name': `${rawData.alconfirstname} ${rawData.alconlastname}`,
               'ALCON Email': rawData.alconemail,
               'ALCON Phone': rawData.alconphone,
+              'CPM Name': rawData.cpmemailupdate,
             };
           });
 
