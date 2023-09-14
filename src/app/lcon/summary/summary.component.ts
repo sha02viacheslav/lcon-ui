@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
 import { ApiService } from '../../api.service';
 import { SummaryType } from '@enums';
+import { getSummaryQuery } from '../../@core/utils';
+import * as moment from 'moment/moment';
 
 @Component({
   selector: 'app-summary',
@@ -11,9 +13,8 @@ import { SummaryType } from '@enums';
 export class SummaryComponent implements OnInit {
   readonly SummaryType = SummaryType;
   isLoading: boolean = true;
-  weeklyDisplayedColumns: string[] = ['date', 'firstOutboundCount', 'secondOutboundCount', 'totalOutboundCount', 'firstInboundCount', 'secondInboundCount', 'totalInboundCount', 'invalidCount', 'noResponseCount', 'totalUnreachableCount',]
-  weeklyTotals = [];
-  
+  currentYear = new Date().getFullYear();
+
   chartData: ChartData;
   chartType: ChartType = 'doughnut';
   chartOptions: ChartOptions = {
@@ -37,14 +38,20 @@ export class SummaryComponent implements OnInit {
     .set(9, 'totalActivity');
 
   params = new Map<string, string>()
-    .set(this.keys.get(0), "firstnotificationdate != '' AND secondnotificationdate = ''")
-    .set(this.keys.get(1), "secondnotificationdate != ''")
-    .set(this.keys.get(2), "firstnotificationdate != '' AND secondnotificationdate = '' AND emailresponsedate !=''")
-    .set(this.keys.get(3), "secondnotificationdate != '' AND emailresponsedate !=''")
-    .set(this.keys.get(4), "status = 'Skipped'")
-    .set(this.keys.get(5), "emailresponsedate = '' AND status != 'Skipped' AND status != 'Completed'");
+    .set(this.keys.get(0), 'firstnotificationdate IS NOT NULL AND secondnotificationdate IS NULL')
+    .set(this.keys.get(1), 'secondnotificationdate IS NOT NULL')
+    .set(
+      this.keys.get(2),
+      'firstnotificationdate IS NOT NULL AND secondnotificationdate IS NULL AND emailresponsedate IS NOT NULL',
+    )
+    .set(this.keys.get(3), 'secondnotificationdate IS NOT NULL AND emailresponsedate IS NOT NULL')
+    .set(this.keys.get(4), "status LIKE '%Skipped%'")
+    .set(this.keys.get(5), "emailresponsedate IS NULL AND status != 'Skipped' AND status != 'Completed'");
 
   queries = new Map<string, number>();
+
+  weeklyTotals: any[];
+  monthlyTotals: any[];
 
   constructor(private api: ApiService) {}
 
@@ -68,6 +75,8 @@ export class SummaryComponent implements OnInit {
     );
 
     this.loadChart();
+    await this.getPastWeekSummary();
+    await this.getPastYearSummary();
     this.isLoading = false;
   }
 
@@ -90,5 +99,71 @@ export class SummaryComponent implements OnInit {
 
   handleChangeDateFilter(value: any) {
     console.log('Change Date Filter', value);
+  }
+
+  private async getPastWeekSummary() {
+    const data = {};
+    for (let i = 0; i < 7; i++) {
+      data[moment().subtract(i, 'days').format('YYYY-MM-DD')] = {
+        firstOutbound: 0,
+        secondOutbound: 0,
+        totalOutbound: 0,
+        firstInbound: 0,
+        secondInbound: 0,
+        totalInbound: 0,
+        invalid: 0,
+        noResponse: 0,
+        totalUnreachable: 0,
+      };
+    }
+    for (let i = 0; i < this.keys.size - 1; i++) {
+      await this.api.getPastWeekSummary(getSummaryQuery(this.keys.get(i) as SummaryType)).then((res) => {
+        res.data?.forEach((item) => {
+          if (data[item.date]) {
+            data[item.date][this.keys.get(i)] = item.count;
+          }
+        });
+      });
+    }
+
+    this.weeklyTotals = [];
+
+    Object.keys(data).forEach((key) => {
+      this.weeklyTotals.push({ date: key, ...data[key] });
+    });
+  }
+
+  private async getPastYearSummary() {
+    const data = {};
+    for (let i = 0; i < 12; i++) {
+      data[moment().month(i).format('YYYY-MM')] = {
+        firstOutbound: 0,
+        secondOutbound: 0,
+        totalOutbound: 0,
+        firstInbound: 0,
+        secondInbound: 0,
+        totalInbound: 0,
+        invalid: 0,
+        noResponse: 0,
+        totalUnreachable: 0,
+      };
+    }
+    for (let i = 0; i < this.keys.size - 1; i++) {
+      await this.api.getPastYearSummary(getSummaryQuery(this.keys.get(i) as SummaryType)).then((res) => {
+        res.data?.forEach((item) => {
+          if (data[item.date]) {
+            data[item.date][this.keys.get(i)] = item.count;
+          }
+        });
+      });
+    }
+
+    console.log(data);
+
+    this.monthlyTotals = [];
+
+    Object.keys(data).forEach((key) => {
+      this.monthlyTotals.push({ date: `${key}-15`, ...data[key] });
+    });
   }
 }

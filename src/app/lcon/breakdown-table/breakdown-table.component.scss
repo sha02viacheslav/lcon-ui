@@ -1,0 +1,44 @@
+@import '../../../styles/colors', '../../../styles/config', '../../../styles/spinners';
+
+$lcon-font: 'Montserrat', Arial, sans-serif;
+
+.spacer2 {
+  min-width: 100%;
+  min-height: 1rem;
+}
+
+.text {
+  font-family: $lcon-font;
+  color: $navy;
+}
+
+.title {
+  text-align: center;
+  margin: auto;
+}
+
+.total {
+  font-weight: bold;
+  font-size: large;
+}
+
+.date {
+  background-color: $grey;
+  color: $white;
+  font-size: 14px;
+}
+
+.outbound {
+  background-color: $core-blue;
+  color: $white;
+}
+
+.inbound {
+  background-color: $sky-blue;
+  color: $dark-grey;
+}
+
+.unreachable {
+  background-color: $lilac;
+  color: $dark-grey;
+}

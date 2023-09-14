@@ -112,7 +112,7 @@ export class FalloutComponent implements OnInit, AfterViewInit {
         sort: this.sort?.active || 'enddate',
         order: this.sort?.direction || 'desc',
         ...this.dateFilter,
-        rawWhere: "status = 'Fallout'",
+        rawWhere: "status LIKE '%Fallout%'",
       })
       .subscribe(
         (res) => {
@@ -144,7 +144,7 @@ export class FalloutComponent implements OnInit, AfterViewInit {
         sort: this.sort?.active || 'enddate',
         order: this.sort?.direction || 'desc',
         ...this.dateFilter,
-        rawWhere: "status = 'Fallout'",
+        rawWhere: "status LIKE '%Fallout%'",
       })
       .subscribe(
         (res) => {

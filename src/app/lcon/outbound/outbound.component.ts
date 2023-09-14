@@ -20,8 +20,8 @@ export class OutboundComponent implements OnInit {
     .set(2, 'totalOutbound');
 
   params = new Map<string, string>()
-    .set(this.keys.get(0), "firstnotificationdate != '' AND secondnotificationdate = ''") // set table to "(select distinct serviceorderid from public.lconsummaryreport) as ordercount"
-    .set(this.keys.get(1), "secondnotificationdate != ''");
+    .set(this.keys.get(0), 'firstnotificationdate IS NOT NULL AND secondnotificationdate IS NULL') // set table to "(select distinct serviceorderid from public.lconsummaryreport) as ordercount"
+    .set(this.keys.get(1), 'secondnotificationdate IS NOT NULL');
   //.set(this.keys.get(2),"")
   //.set(this.keys.get(3),"")
 

@@ -24,6 +24,20 @@ export class ApiService {
       .toPromise();
   }
 
+  getPastWeekSummary(where: string): Promise<any> {
+    return this.http
+      .get(this.apiUrl + '/lcon/past_week_summary', { withCredentials: true, params: { query: where } })
+      .pipe(retry(1), catchError(this.handleError))
+      .toPromise();
+  }
+
+  getPastYearSummary(where: string): Promise<any> {
+    return this.http
+      .get(this.apiUrl + '/lcon/past_year_summary', { withCredentials: true, params: { query: where } })
+      .pipe(retry(1), catchError(this.handleError))
+      .toPromise();
+  }
+
   getLconList(filter: Filter): Observable<ApiResponse<Pagination<Lcon>>> {
     return this.http.get<ApiResponse<any>>(this.apiUrl + '/lcon/postgresdata', {
       withCredentials: true,

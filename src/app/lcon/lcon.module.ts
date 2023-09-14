@@ -30,6 +30,7 @@ import { SharedModule } from '../shared/shared.module';
 import { LconListComponent } from './pages/lcon-list/lcon-list.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { SearchResultComponent } from './search-result/search-result.component';
+import { BreakdownTableComponent } from './breakdown-table/breakdown-table.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { SearchResultComponent } from './search-result/search-result.component';
     LconListComponent,
     DashboardComponent,
     SearchResultComponent,
+    BreakdownTableComponent,
   ],
   imports: [
     CommonModule,
