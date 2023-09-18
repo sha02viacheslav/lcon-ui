@@ -1,0 +1,109 @@
+<div class="page-wrap">
+  <div class="loading-shade" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16">
+    <app-date-filter (onChange)="handleChangeDateFilter($event)"></app-date-filter>
+    <app-search (onChange)="handleChangeSearch($event)"></app-search>
+    <button mat-raised-button (click)="exportXls()">Export</button>
+  </div>
+
+  <div class="summary-wrap">
+    <div class="chart-container">
+      <div class="chart">
+        <app-chart *ngIf="!isLoading" [type]="chartType" [data]="chartData" [options]="chartOptions"></app-chart>
+      </div>
+    </div>
+    <div class="summary">
+      Success Rate: <span>{{ (totalSuccessful * 100) / (totalAttempted || 1) | number : '1.1-1' }}%</span>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      multiTemplateDataRows
+      class="mat-elevation-z8"
+      matSort
+      matSortActive="enddate"
+      matSortDisableClear
+      matSortDirection="desc"
+    >
+      <ng-container matColumnDef="enddate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Fallout Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.enddate | date : 'MM/dd/YY' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="orderacceptancedate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Order Created</th>
+        <td mat-cell *matCellDef="let element">{{ element.orderacceptancedate | date : 'MM/dd/YY' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="sr">
+        <th mat-header-cell *matHeaderCellDef>Century SR</th>
+        <td mat-cell *matCellDef="let element">{{ element.sr }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="serviceorderid">
+        <th mat-header-cell *matHeaderCellDef>Century Service ID</th>
+        <td mat-cell *matCellDef="let element">{{ element.serviceorderid }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="expand">
+        <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            mat-icon-button
+            (click)="expandedElement = expandedElement === element ? null : element; $event.stopPropagation()"
+          >
+            <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+            <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+          <div class="expand-wrap" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+            <div class="list-item"><strong>Customer Name:&nbsp;</strong>{{ element.carrier }}</div>
+            <div class="list-item">
+              <strong>Site Address:&nbsp;</strong>{{ element.address }}, {{ element.city }}, {{ element.state }}-{{
+                element.zip
+              }}
+            </div>
+            <div class="list-item">
+              <strong>LCON Contact:&nbsp;</strong>
+              <div>
+                <div><span>Name: </span>{{ element.lconfirstname }} {{ element.lconlastname }}</div>
+                <div><span>Email: </span>{{ element.lconemail }}</div>
+                <div><span>Phone: </span>{{ element.lconphone }}</div>
+              </div>
+            </div>
+            <div class="list-item">
+              <strong>ALCON Contact:&nbsp;</strong>
+              <div>
+                <div><span>Name: </span>{{ element.alconfirstname }} {{ element.alconlastname }}</div>
+                <div><span>Email: </span>{{ element.alconemail }}</div>
+                <div><span>Phone: </span>{{ element.alconphone }}</div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+      <tr
+        mat-row
+        *matRowDef="let element; columns: columnsToDisplayWithExpand"
+        class="element-row"
+        [class.expanded-row]="expandedElement === element"
+        (click)="expandedElement = expandedElement === element ? null : element"
+      ></tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+    </table>
+  </div>
+
+  <mat-paginator #paginator [length]="totalCnt" [pageSize]="10" [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+</div>

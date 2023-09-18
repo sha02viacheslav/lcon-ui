@@ -1,0 +1,41 @@
+<div class="datepicker">
+  <mat-form-field class="row" appearance="outline" subscriptSizing="dynamic" color="primary">
+    <mat-label>Select a date range</mat-label>
+    <mat-select [(ngModel)]="type" (selectionChange)="handleChangeDateRangeType($event.value)">
+      <mat-option *ngFor="let item of DATE_RANGE_ITEMS" [value]="item.value">
+        {{ item.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field
+    [formGroup]="range"
+    *ngIf="type === DateRangeType.CUSTOM || type === DateRangeType.YTD"
+    class="row"
+    appearance="outline"
+    subscriptSizing="dynamic"
+    color="primary"
+  >
+    <mat-label>Enter a date range</mat-label>
+    <mat-date-range-input [rangePicker]="picker">
+      <input matStartDate formControlName="start" placeholder="Start date" />
+      <input matEndDate formControlName="end" placeholder="End date" />
+    </mat-date-range-input>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+
+  <div
+    *ngIf="
+      type === DateRangeType.WEEK ||
+      type === DateRangeType.MONTH ||
+      type === DateRangeType.QUARTER ||
+      type === DateRangeType.YEARLY
+    "
+    class="row"
+  >
+    <app-week-selector *ngIf="type === DateRangeType.WEEK" (onChange)="handleChangeDate($event)" />
+    <app-month-selector *ngIf="type === DateRangeType.MONTH" (onChange)="handleChangeDate($event)" />
+    <app-quarter-selector *ngIf="type === DateRangeType.QUARTER" (onChange)="handleChangeDate($event)" />
+    <app-year-selector *ngIf="type === DateRangeType.YEARLY" (onChange)="handleChangeDate($event)" />
+  </div>
+</div>

@@ -1,0 +1,34 @@
+@import './../../../styles/colors';
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+:host ::ng-deep .search-box-wrap {
+  .mat-icon {
+    color: $dark-grey;
+  }
+}
+
+.search-box-wrap {
+  position: relative;
+  background: #fff;
+  border-radius: 40px;
+  padding: 0 16px;
+  max-width: 420px;
+
+  input {
+    height: 46px;
+    border: none;
+    outline: none !important;
+    width: 100%;
+    border-radius: 40px;
+    font-size: 1rem;
+  }
+
+  button {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}

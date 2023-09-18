@@ -1,0 +1,20 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@import './palettes', './config';
+
+// LIGHT THEME
+
+$lcon-primary: mat.define-palette($core-blue-palette);
+$lcon-accent: mat.define-palette($navy-palette);
+$lcon-warn: mat.define-palette(mat.$red-palette);
+
+$lcon-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $lcon-primary,
+      accent: $lcon-accent,
+      warn: $lcon-warn,
+    ),
+    typography: $lcon-typography,
+  )
+);

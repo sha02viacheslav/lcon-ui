@@ -1,0 +1,61 @@
+@import '../../../styles/colors', '../../../styles/config', '../../../styles/spinners';
+
+$lcon-font: 'Montserrat', Arial, sans-serif;
+
+.spacer {
+  min-width: 100%;
+  min-height: 7rem;
+}
+
+.spacer2 {
+  min-width: 100%;
+  min-height: 1rem;
+}
+
+.container {
+  display: flex;
+  width: 80%;
+  height: fit-content;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.column {
+  flex: 1;
+  margin: 1px;
+}
+
+.chart {
+  transform: scale(0.9, 0.9);
+}
+
+.text {
+  font-family: $lcon-font;
+  color: $navy;
+}
+
+.title {
+  text-align: center;
+  margin: auto;
+}
+
+.total {
+  font-weight: bold;
+  font-size: large;
+}
+
+.outbound {
+  background-color: $core-blue;
+  color: $white;
+}
+
+.inbound {
+  background-color: $sky-blue;
+  color: $dark-grey;
+}
+
+.unreachable {
+  background-color: $lilac;
+  color: $dark-grey;
+}

@@ -1,0 +1,37 @@
+// DEFINE PALETTES
+
+$core-blue-palette: (
+    50: $core-blue, 100: $core-blue, 200: $core-blue, 300: $core-blue, 400: $core-blue,
+    500: $core-blue, 600: $core-blue, 700: $core-blue, 800: $core-blue, 900: $core-blue,
+    contrast: (
+        50: $white, 100: $white, 200: $white, 300: $white, 400: $white,
+        500: $white, 600: $white, 700: $white, 800: $white, 900: $white,
+    )
+);
+
+$navy-palette: (
+    50: $navy, 100: $navy, 200: $navy, 300: $navy, 400: $navy,
+    500: $navy, 600: $navy, 700: $navy, 800: $navy, 900: $navy,
+    contrast: (
+        50: $white, 100: $white, 200: $white, 300: $white, 400: $white,
+        500: $white, 600: $white, 700: $white, 800: $white, 900: $white,
+    )
+);
+
+$sky-blue-palette: (
+    50: $sky-blue, 100: $sky-blue, 200: $sky-blue, 300: $sky-blue, 400: $sky-blue,
+    500: $sky-blue, 600: $sky-blue, 700: $sky-blue, 800: $sky-blue, 900: $sky-blue,
+    contrast: (
+        50: $dark-grey, 100: $dark-grey, 200: $dark-grey, 300: $dark-grey, 400: $dark-grey,
+        500: $dark-grey, 600: $dark-grey, 700: $dark-grey, 800: $dark-grey, 900: $dark-grey,
+    )
+);
+
+$mint-palette: (
+    50: $mint, 100: $mint, 200: $mint, 300: $mint, 400: $mint,
+    500: $mint, 600: $mint, 700: $mint, 800: $mint, 900: $mint,
+    contrast: (
+        50: $dark-grey, 100: $dark-grey, 200: $dark-grey, 300: $dark-grey, 400: $dark-grey,
+        500: $dark-grey, 600: $dark-grey, 700: $dark-grey, 800: $dark-grey, 900: $dark-grey,
+    )
+);

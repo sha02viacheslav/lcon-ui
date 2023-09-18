@@ -1,0 +1,47 @@
+@import "../../../styles/colors", "../../../styles/config", "../../../styles/spinners";
+
+$lcon-font: 'Montserrat', Arial, sans-serif;
+
+.spacer {
+    min-width: 100%;
+    min-height: 7rem;
+}
+
+.spacer2 {
+    min-width: 100%;
+    min-height: 1rem;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.legend {
+    width: 73%;
+    margin-left: 14%;
+}
+
+.chart {
+    transform: scale(0.87,0.87) translate(6.5%);
+}
+
+.text {
+    font-family: $lcon-font;
+    color: $navy;
+}
+
+.title {
+    text-align: center;
+    margin: auto;
+}
+
+.total {
+    color: $core-blue;
+}
+
+.breakdown {
+    color: $lilac;
+    font-size: x-large;
+    font-weight: 700;
+}

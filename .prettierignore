@@ -1,0 +1,8 @@
+# add files you wish to ignore here
+**/*.md
+**/*.svg
+
+src/assets/*
+node_modules/
+package.json
+package-lock.json

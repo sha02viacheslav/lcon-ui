@@ -1,0 +1,93 @@
+<div class="page-wrap">
+  <app-back-link></app-back-link>
+
+  <ng-container *ngIf="!isLoading; else loading">
+    <mat-grid-list cols="3" rowHeight="36">
+      <mat-grid-tile colspan="1">Century SR</mat-grid-tile>
+      <mat-grid-tile colspan="1">Century Service ID</mat-grid-tile>
+      <mat-grid-tile colspan="1">Carrier</mat-grid-tile>
+      <mat-grid-tile colspan="1">{{ lcon.sr }}</mat-grid-tile>
+      <mat-grid-tile colspan="1">{{ lcon.serviceorderid }}</mat-grid-tile>
+      <mat-grid-tile colspan="1">{{ lcon.carrier }}</mat-grid-tile>
+    </mat-grid-list>
+
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <div fxFlex="50">
+        <mat-grid-list cols="3" rowHeight="36">
+          <mat-grid-tile colspan="3">LCON</mat-grid-tile>
+          <mat-grid-tile colspan="1">Name:</mat-grid-tile>
+          <mat-grid-tile colspan="2">{{ lcon.lconfirstname }} {{ lcon.lconfirstname }}</mat-grid-tile>
+          <mat-grid-tile colspan="1">Email:</mat-grid-tile>
+          <mat-grid-tile colspan="2">{{ lcon.lconemail }}</mat-grid-tile>
+          <mat-grid-tile colspan="1">Phone:</mat-grid-tile>
+          <mat-grid-tile colspan="2">{{ lcon.lconphone }}</mat-grid-tile>
+        </mat-grid-list>
+      </div>
+      <div fxFlex="50">
+        <mat-grid-list cols="3" rowHeight="36">
+          <mat-grid-tile colspan="3">ALCON</mat-grid-tile>
+          <mat-grid-tile colspan="1">Name:</mat-grid-tile>
+          <mat-grid-tile colspan="2">{{ lcon.alconfirstname }} {{ lcon.alconfirstname }}</mat-grid-tile>
+          <mat-grid-tile colspan="1">Email:</mat-grid-tile>
+          <mat-grid-tile colspan="2">{{ lcon.alconemail }}</mat-grid-tile>
+          <mat-grid-tile colspan="1">Phone:</mat-grid-tile>
+          <mat-grid-tile colspan="2">{{ lcon.alconphone }}</mat-grid-tile>
+        </mat-grid-list>
+      </div>
+    </div>
+
+    <mat-grid-list cols="4" rowHeight="36">
+      <mat-grid-tile colspan="1">Site:</mat-grid-tile>
+      <mat-grid-tile colspan="3">{{ lcon.sitename }}</mat-grid-tile>
+      <mat-grid-tile colspan="1">Address:</mat-grid-tile>
+      <mat-grid-tile colspan="3">{{ lcon.address }}, {{ lcon.city }}, {{ lcon.state }}-{{ lcon.zip }}</mat-grid-tile>
+    </mat-grid-list>
+
+    <mat-grid-list cols="4" rowHeight="36">
+      <mat-grid-tile colspan="1">Order Start:</mat-grid-tile>
+      <mat-grid-tile colspan="3">{{ lcon.orderacceptancedate | date : 'MM/dd/YYYY' }}</mat-grid-tile>
+    </mat-grid-list>
+
+    <div fxLayout="row">
+      <div fxFlex="25">
+        <mat-grid-list cols="1" rowHeight="36">
+          <mat-grid-tile colspan="1">First Email:</mat-grid-tile>
+          <mat-grid-tile colspan="1">{{
+            (lcon.firstnotificationdate | convertDate | date : 'MM/dd/YYYY') || 'N/A'
+          }}</mat-grid-tile>
+        </mat-grid-list>
+      </div>
+      <div fxFlex="25">
+        <mat-grid-list cols="1" rowHeight="36">
+          <mat-grid-tile colspan="1">Second Email:</mat-grid-tile>
+          <mat-grid-tile colspan="1">{{
+            (lcon.secondnotificationdate | convertDate | date : 'MM/dd/YYYY') || 'N/A'
+          }}</mat-grid-tile>
+        </mat-grid-list>
+      </div>
+      <div fxFlex="25">
+        <mat-grid-list cols="1" rowHeight="36">
+          <mat-grid-tile colspan="1">Third Email:</mat-grid-tile>
+          <mat-grid-tile colspan="1">{{
+            (lcon.thirdnotificationdate | convertDate | date : 'MM/dd/YYYY') || 'N/A'
+          }}</mat-grid-tile>
+        </mat-grid-list>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #loading>
+  <div class="spacer"></div>
+  <div class="lds-roller">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <div class="text title">Loading summary...</div>
+</ng-template>

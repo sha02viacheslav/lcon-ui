@@ -1,0 +1,42 @@
+<ng-template #loading>
+  <div class="spacer"></div>
+  <div class="lds-roller">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <div class="text">Loading outbound...</div>
+</ng-template>
+
+<ng-container *ngIf="!isLoading; else loading">
+  <div class="page-wrap">
+    <app-date-filter (onChange)="handleChangeDateFilter($event)"></app-date-filter>
+    <div id="outbound-data" class="container text">
+      <mat-grid-list cols="2" rowHeight="8:1">
+        <mat-grid-tile routerLink="/list/{{ SummaryType.FIRST_OUTBOUND }}" class="mat-headline-2 pointer" rowspan="3">
+          <div>
+            <span class="total">{{ queries.get('firstOutbound') }}</span>
+            <br />Verification<br />Orders
+          </div>
+        </mat-grid-tile>
+        <mat-grid-tile routerLink="/list/{{ SummaryType.SECOND_OUTBOUND }}" class="mat-headline-2 pointer" rowspan="3">
+          <div>
+            <span class="total">{{ queries.get('totalOutbound') }}</span>
+            <br />Outbound<br />Emails
+          </div>
+        </mat-grid-tile>
+        <mat-grid-tile class="email-quantity" colspan="2">
+          <div>Emails sent to Primary LCON address: <span class="breakdown"> N/A</span></div>
+        </mat-grid-tile>
+        <mat-grid-tile class="email-quantity" colspan="2">
+          <div>Emails sent to Secondary LCON address: <span class="breakdown"> N/A</span></div>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </div>
+</ng-container>

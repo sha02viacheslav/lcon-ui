@@ -1,0 +1,34 @@
+@import "../../../styles/colors", "../../../styles/config", "../../../styles/spinners";
+
+$lcon-font: 'Montserrat', Arial, sans-serif;
+
+.spacer {
+    min-width: 100%;
+    min-height: 7rem;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.text {
+    font-family: $lcon-font;
+    color: $navy;
+    text-align: center;
+    margin: auto;
+}
+
+.total {
+    color: $core-blue;
+}
+
+.email-quantity {
+    font-size: xx-large;
+}
+
+.breakdown {
+    color: $lilac;
+    font-size: xx-large;
+    font-weight: 700;
+}

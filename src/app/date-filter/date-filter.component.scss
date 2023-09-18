@@ -1,0 +1,15 @@
+@import '../../styles/colors', '../../styles/config';
+
+$lcon-font: 'Montserrat', Arial, sans-serif;
+
+.datepicker {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  max-width: 480px;
+  margin: auto;
+}
+
+.row {
+  width: 50%;
+}

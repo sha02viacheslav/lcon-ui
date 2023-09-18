@@ -1,0 +1,18 @@
+<mat-form-field class="wrapper" appearance="outline" subscriptSizing="dynamic" color="primary">
+  <mat-label>Select a quarter</mat-label>
+  <mat-select [(ngModel)]="quarter" (ngModelChange)="handleSelect()">
+    <mat-select-trigger> {{ year }} Quarter {{ quarter }} </mat-select-trigger>
+    <mat-option class="year-selector-option">
+      <div class="year-selector" (click)="$event.stopPropagation()">
+        <button mat-icon-button (click)="handlePreYear($event)">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+        {{ year }}
+        <button mat-icon-button (click)="handleNextYear($event)">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+    </mat-option>
+    <mat-option *ngFor="let item of [1, 2, 3, 4]" [value]="item"> Quarter {{ item }} </mat-option>
+  </mat-select>
+</mat-form-field>

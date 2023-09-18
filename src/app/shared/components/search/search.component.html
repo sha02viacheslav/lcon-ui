@@ -1,0 +1,8 @@
+<mat-form-field class="search-box-wrap" fxFlex appearance="outline" subscriptSizing="dynamic" color="primary">
+  <mat-label>Search in table</mat-label>
+  <button mat-icon-button matSuffix (click)="clearSearch()">
+    <mat-icon *ngIf="!search">search</mat-icon>
+    <mat-icon *ngIf="!!search">close</mat-icon>
+  </button>
+  <input type="text" [(ngModel)]="search" (ngModelChange)="searchInput$.next(search)" matInput />
+</mat-form-field>

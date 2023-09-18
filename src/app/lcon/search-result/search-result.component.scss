@@ -1,0 +1,103 @@
+@import '../../../styles/colors', '../../../styles/config', '../../../styles/spinners';
+
+.panel-block {
+  height: 0;
+  transition: all 1.5s;
+  overflow: hidden;
+  &.fadeIn {
+    height: unset;
+  }
+}
+
+$lcon-font: 'Montserrat', Arial, sans-serif;
+
+h1 {
+  font-family: $lcon-font;
+  color: $navy;
+  margin: 0;
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.mat-button-toggle {
+  background-color: $white;
+  color: $dark-grey;
+}
+
+.mat-button-toggle-checked {
+  background-color: $core-blue;
+  color: $white;
+}
+
+.table-container {
+  position: relative;
+  min-height: 200px;
+  margin-top: 24px;
+}
+
+.loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:host ::ng-deep {
+  .mdc-data-table__cell,
+  .mdc-data-table__header-cell {
+    padding: 0 8px 0 8px;
+  }
+
+  .mdc-data-table__cell:first-child,
+  .mdc-data-table__header-cell:first-child {
+    padding: 0;
+  }
+
+  .mdc-data-table__cell:last-child,
+  .mdc-data-table__header-cell:last-child {
+    padding: 0 16px 0 8px;
+  }
+}
+
+::ng-deep {
+  .mdc-list-item__primary-text {
+    width: 100%;
+    font-size: 14px;
+  }
+}
+
+tr.detail-row {
+  height: 0;
+}
+
+tr.element-row:not(.expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.element-row:not(.expanded-row):active {
+  background: #efefef;
+}
+
+.element-row td {
+  border-bottom-width: 0;
+}
+
+.expand-wrap {
+  overflow: hidden;
+}
+
+.list-item {
+  padding-left: 53px;
+  margin: 8px 16px;
+  display: flex;
+
+  strong {
+    width: 200px;
+  }
+}

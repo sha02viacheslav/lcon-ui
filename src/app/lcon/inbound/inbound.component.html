@@ -1,0 +1,52 @@
+<ng-template #loading>
+  <div class="spacer"></div>
+  <div class="lds-roller">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <div class="text title">Loading inbound...</div>
+</ng-template>
+
+<ng-container *ngIf="!isLoading; else loading">
+  <div class="page-wrap">
+    <app-date-filter (onChange)="handleChangeDateFilter($event)"></app-date-filter>
+    <div class="spacer2"></div>
+    <div class="mat-headline-3 text title">
+      Total Responses: <span class="total">{{ totalInbound }}</span>
+    </div>
+    <div id="inbound-container" class="container">
+      <div id="inbound-data" class="text legend">
+        <mat-grid-list cols="4" rowHeight="10:1">
+          <mat-grid-tile colspan="4"></mat-grid-tile>
+          <mat-grid-tile routerLink="/list/{{ SummaryType.NO_CHANGE }}" class="breakdown pointer">{{
+            noChange
+          }}</mat-grid-tile>
+          <mat-grid-tile routerLink="/list/{{ SummaryType.LCON_CHANGE }}" class="breakdown pointer">{{
+            lconChange
+          }}</mat-grid-tile>
+          <mat-grid-tile routerLink="/list/{{ SummaryType.ALCON_CHANGE }}" class="breakdown pointer">{{
+            alconChange
+          }}</mat-grid-tile>
+          <mat-grid-tile routerLink="/list/{{ SummaryType.DEMARC_CHANGE }}" class="breakdown pointer">{{
+            demarcChange
+          }}</mat-grid-tile>
+          <mat-grid-tile routerLink="/list/{{ SummaryType.NO_CHANGE }}" class="pointer">No Change</mat-grid-tile>
+          <mat-grid-tile routerLink="/list/{{ SummaryType.LCON_CHANGE }}" class="pointer">LCON Change</mat-grid-tile>
+          <mat-grid-tile routerLink="/list/{{ SummaryType.ALCON_CHANGE }}" class="pointer">ALCON Change</mat-grid-tile>
+          <mat-grid-tile routerLink="/list/{{ SummaryType.DEMARC_CHANGE }}" class="pointer"
+            >Demarc Change</mat-grid-tile
+          >
+        </mat-grid-list>
+      </div>
+      <div id="inbound-bar-chart" class="chart">
+        <app-chart [type]="chartType" [data]="chartData" [options]="chartOptions"></app-chart>
+      </div>
+    </div>
+  </div>
+</ng-container>

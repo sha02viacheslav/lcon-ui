@@ -1,0 +1,32 @@
+@use '@angular/material' as mat;
+
+@import './styles/colors', './styles/light', './styles/config', './styles/common';
+
+@include mat.core();
+
+// Define theme for material components used
+@include mat.core-theme($lcon-theme);
+@include mat.toolbar-theme($lcon-theme);
+@include mat.icon-theme($lcon-theme);
+@include mat.tabs-theme($lcon-theme);
+@include mat.form-field-theme($lcon-theme);
+@include mat.select-theme($lcon-theme);
+@include mat.option-theme($lcon-theme);
+@include mat.table-theme($lcon-theme);
+@include mat.checkbox-theme($lcon-theme);
+@include mat.paginator-theme($lcon-theme);
+@include mat.sort-theme($lcon-theme);
+@include mat.progress-spinner-theme($lcon-theme);
+@include mat.snack-bar-theme($lcon-theme);
+@include mat.datepicker-theme($lcon-theme);
+@include mat.button-theme($lcon-theme);
+@include mat.icon-theme($lcon-theme);
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}

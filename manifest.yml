@@ -1,0 +1,8 @@
+---
+applications:
+- name: lcon-dashboard-ui
+  path: ./dist
+  memory: 256MB
+  disk_quota: 500MB
+  instances: 1
+  stack: cflinuxfs3

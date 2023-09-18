@@ -1,0 +1,178 @@
+<div class="panel-block" [class.fadeIn]="searchService.showSearchResult">
+  <div class="page-wrap">
+    <h1>Search Results</h1>
+
+    <div class="loading-shade" *ngIf="isLoading">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <div class="table-container">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        multiTemplateDataRows
+        class="mat-elevation-z8"
+        matSort
+        matSortActive="sr"
+        matSortDirection="asc"
+        matSortDisableClear
+      >
+        <!-- Century SR -->
+        <ng-container matColumnDef="sr">
+          <th mat-header-cell *matHeaderCellDef>Century SR</th>
+          <td mat-cell *matCellDef="let element">{{ element.sr }}</td>
+        </ng-container>
+
+        <!-- Century Service ID -->
+        <ng-container matColumnDef="serviceorderid">
+          <th mat-header-cell *matHeaderCellDef>Century Service ID</th>
+          <td mat-cell *matCellDef="let element">{{ element.serviceorderid }}</td>
+        </ng-container>
+
+        <!-- Customer -->
+        <ng-container matColumnDef="carrier">
+          <th mat-header-cell *matHeaderCellDef>Customer</th>
+          <td mat-cell *matCellDef="let element">{{ element.carrier }}</td>
+        </ng-container>
+
+        <!-- Status -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let element">{{ element.status }}</td>
+        </ng-container>
+
+        <!-- First Notification -->
+        <ng-container matColumnDef="firstnotificationdate">
+          <th mat-header-cell *matHeaderCellDef>First Notification</th>
+          <td mat-cell *matCellDef="let element">{{ element.firstnotificationdate }}</td>
+        </ng-container>
+
+        <!-- Second Notification -->
+        <ng-container matColumnDef="secondnotificationdate">
+          <th mat-header-cell *matHeaderCellDef>Second Notification</th>
+          <td mat-cell *matCellDef="let element">{{ element.secondnotificationdate }}</td>
+        </ng-container>
+
+        <!-- Third Notification -->
+        <ng-container matColumnDef="thirdnotificationdate">
+          <th mat-header-cell *matHeaderCellDef>Third Notification</th>
+          <td mat-cell *matCellDef="let element">{{ element.thirdnotificationdate }}</td>
+        </ng-container>
+
+        <!-- Response Date -->
+        <ng-container matColumnDef="emailresponsedate">
+          <th mat-header-cell *matHeaderCellDef>Response Date:</th>
+          <td mat-cell *matCellDef="let element">{{ element.emailresponsedate }}</td>
+        </ng-container>
+
+        <!-- Expand Button -->
+        <ng-container matColumnDef="expand">
+          <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              mat-icon-button
+              (click)="expandedElement = expandedElement === element ? null : element; $event.stopPropagation()"
+            >
+              <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+              <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <!-- Expanded View -->
+        <ng-container matColumnDef="expandedDetail">
+          <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+            <div class="expand-wrap" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+              <!-- LCON -->
+              <div class="list-item">
+                <strong>LCON Contact:</strong>
+                <div>
+                  <div>
+                    <span><em>Name: </em></span>{{ element.lconfirstname }} {{ element.lconlastname }}
+                  </div>
+                  <div>
+                    <span><em>Email: </em></span>{{ element.lconemail }}
+                  </div>
+                  <div>
+                    <span><em>Phone: </em></span>{{ element.lconphone }}
+                  </div>
+                </div>
+              </div>
+              <!-- ALCON -->
+              <div class="list-item">
+                <strong>ALCON Contact:</strong>
+                <div>
+                  <div>
+                    <span><em>Name: </em></span>{{ element.alconfirstname }} {{ element.alconlastname }}
+                  </div>
+                  <div>
+                    <span><em>Email: </em></span>{{ element.alconemail }}
+                  </div>
+                  <div>
+                    <span><em>Phone: </em></span>{{ element.alconphone }}
+                  </div>
+                </div>
+              </div>
+              <!-- Project Manager -->
+              <div class="list-item" *ngIf="element.projectmanager">
+                <strong>Project Manager:</strong>{{ element.projectmanager }}
+              </div>
+              <!-- MDR -->
+              <div class="list-item" *ngIf="element.mdr"><strong>MDR:</strong>{{ element.mdr }}</div>
+              <!-- PON -->
+              <div class="list-item" *ngIf="element.pon"><strong>PON:</strong>{{ element.pon }}</div>
+              <!-- Site Name -->
+              <div class="list-item" *ngIf="element.sitename"><strong>Site Name:</strong>{{ element.sitename }}</div>
+              <!-- Site Address -->
+              <div class="list-item" *ngIf="element.address || element.city || element.state || element.zip">
+                <strong>Site Address:</strong>{{ element.address }}, {{ element.city }}, {{ element.state }}
+                {{ element.zip }}
+              </div>
+              <!-- Building Classification-->
+              <div class="list-item" *ngIf="element.buildingclassification">
+                <strong>Building Classification:</strong>{{ element.buildingclassification }}
+              </div>
+              <!-- Transport Type -->
+              <div class="list-item" *ngIf="element.transporttype">
+                <strong>Transport Type:</strong>{{ element.transporttype }}
+              </div>
+              <!-- Order Acceptance -->
+              <div class="list-item" *ngIf="element.orderacceptancedate">
+                <strong>Order Acceptance:</strong>{{ element.orderacceptancedate }}
+              </div>
+              <!-- Result -->
+              <div class="list-item" *ngIf="element.result"><strong>Result:</strong>{{ element.result }}</div>
+              <!-- Response Title -->
+              <div class="list-item" *ngIf="element.responsetitle">
+                <strong>Response Title:</strong>{{ element.responsetitle }}
+              </div>
+              <!-- Notes -->
+              <div class="list-item" *ngIf="element.notes"><strong>Notes:</strong>{{ element.notes }}</div>
+              <!-- Century Update -->
+              <div class="list-item" *ngIf="element.centuryupdate">
+                <strong>Century Update:</strong>{{ element.centuryupdate }}
+              </div>
+              <!-- Action -->
+              <div class="list-item" *ngIf="element.action"><strong>Action:</strong>{{ element.action }}</div>
+              <!-- Exception Message -->
+              <div class="list-item" *ngIf="element.exceptionmessage">
+                <strong>Exception Message:</strong>{{ element.exceptionmessage }}
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+        <tr
+          mat-row
+          *matRowDef="let element; columns: columnsToDisplayWithExpand"
+          class="element-row"
+          [class.expanded-row]="expandedElement === element"
+          (click)="expandedElement = expandedElement === element ? null : element"
+        ></tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+      </table>
+    </div>
+
+    <mat-paginator #paginator [length]="totalCnt" [pageSize]="10" [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+  </div>
+</div>

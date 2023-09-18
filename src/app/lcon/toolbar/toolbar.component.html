@@ -1,0 +1,17 @@
+<mat-toolbar color="primary">
+  <span>LCON Dashboard</span>
+  <span class="spacer"></span>
+
+  <div fxFlex class="search-box-wrap">
+    <input
+      type="text"
+      placeholder="Search by SR, Service ID, Customer & Status..."
+      [(ngModel)]="searchService.search"
+      (ngModelChange)="searchService.searchInput$.next(searchService.search)"
+    />
+    <button mat-icon-button (click)="searchService.clearSearch()">
+      <mat-icon *ngIf="!searchService.search">search</mat-icon>
+      <mat-icon *ngIf="!!searchService.search">close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>

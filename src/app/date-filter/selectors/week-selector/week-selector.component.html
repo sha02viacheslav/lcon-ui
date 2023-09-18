@@ -1,0 +1,9 @@
+<mat-form-field class="wrapper" appearance="outline" subscriptSizing="dynamic" color="primary">
+  <mat-label>Select a week</mat-label>
+  <mat-date-range-input [rangePicker]="picker">
+    <input matStartDate placeholder="Start date" disabled (dateChange)="handleSelect($event)" />
+    <input matEndDate placeholder="End date" disabled />
+  </mat-date-range-input>
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
+</mat-form-field>

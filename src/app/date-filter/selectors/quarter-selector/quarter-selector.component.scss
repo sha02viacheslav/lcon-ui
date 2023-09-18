@@ -1,0 +1,21 @@
+::ng-deep {
+  .year-selector-option.mat-mdc-option {
+    padding: 0;
+    .mdc-list-item__primary-text {
+      width: 100%;
+    }
+  }
+
+  .year-selector {
+    padding: 0 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: default;
+    background: #ffffff;
+  }
+}
+
+.wrapper {
+  max-width: 100%;
+}

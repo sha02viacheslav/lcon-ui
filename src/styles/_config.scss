@@ -1,0 +1,16 @@
+@use '@angular/material' as mat;
+
+//@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500&display=swap');
+
+// TYPOGRAPHY
+
+$lcon-font-family: "'Montserrat', Arial, sans-serif";
+
+$lcon-typography: mat.define-typography-config(
+  $headline-5: mat.define-typography-level(2em, $font-family: $lcon-font-family),
+  $headline-6: mat.define-typography-level(1.5em, $font-family: $lcon-font-family),
+  $subtitle-1: mat.define-typography-level(1.3em, $font-family: $lcon-font-family),
+  $subtitle-2: mat.define-typography-level(1em, $font-family: $lcon-font-family),
+  $body-1: mat.define-typography-level(1em, $font-family: $lcon-font-family, $line-height: 24px),
+  $button: mat.define-typography-level(1em, $font-family: $lcon-font-family),
+);

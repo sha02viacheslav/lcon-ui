@@ -1,0 +1,6 @@
+<mat-form-field class="wrapper" appearance="outline" subscriptSizing="dynamic" color="primary">
+  <mat-label>Month</mat-label>
+  <input matInput [matDatepicker]="dp" [formControl]="date" />
+  <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+  <mat-datepicker #dp startView="multi-year" (monthSelected)="setMonthAndYear($event, dp)"> </mat-datepicker>
+</mat-form-field>
