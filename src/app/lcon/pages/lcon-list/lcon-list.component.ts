@@ -108,9 +108,9 @@ export class LconListComponent {
             case SummaryType.INVALID:
             case SummaryType.NO_RESPONSE: {
               this.typeOptions = [
-                { value: SummaryType.TOTAL_OUTBOUND, label: 'All' },
-                { value: SummaryType.FIRST_OUTBOUND, label: 'Invalid' },
-                { value: SummaryType.SECOND_OUTBOUND, label: 'No Response' },
+                { value: SummaryType.TOTAL_UNREACHABLE, label: 'All' },
+                { value: SummaryType.INVALID, label: 'Invalid' },
+                { value: SummaryType.NO_RESPONSE, label: 'No Response' },
               ];
               break;
             }
