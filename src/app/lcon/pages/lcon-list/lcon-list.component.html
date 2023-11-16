@@ -91,8 +91,8 @@
           <div class="expand-wrap" [@detailExpand]="element === expandedElement ? 'expanded' : 'collapsed'">
             <!-- LCON -->
             <div class="list-item">
-              <strong>LCON Contact:</strong>
-              <div>
+              <strong class="label">LCON Contact:</strong>
+              <div class="content">
                 <div>
                   <span><em>Name: </em></span>{{ element.lconfirstname }} {{ element.lconlastname }}
                 </div>
@@ -106,8 +106,8 @@
             </div>
             <!-- ALCON -->
             <div class="list-item">
-              <strong>ALCON Contact:</strong>
-              <div>
+              <strong class="label">ALCON Contact:</strong>
+              <div class="content">
                 <div>
                   <span><em>Name: </em></span>{{ element.alconfirstname }} {{ element.alconlastname }}
                 </div>
@@ -121,51 +121,71 @@
             </div>
             <!-- Project Manager -->
             <div class="list-item" *ngIf="element.projectmanager">
-              <strong>Project Manager:</strong>{{ element.projectmanager }}
+              <strong class="label">Project Manager:</strong><span class="content">{{ element.projectmanager }}</span>
             </div>
             <!-- MDR -->
-            <div class="list-item" *ngIf="element.mdr"><strong>MDR:</strong>{{ element.mdr }}</div>
+            <div class="list-item" *ngIf="element.mdr">
+              <strong class="label">MDR:</strong><span class="content">{{ element.mdr }}</span>
+            </div>
             <!-- PON -->
-            <div class="list-item" *ngIf="element.pon"><strong>PON:</strong>{{ element.pon }}</div>
+            <div class="list-item" *ngIf="element.pon">
+              <strong class="label">PON:</strong><span class="content">{{ element.pon }}</span>
+            </div>
             <!-- Site Name -->
-            <div class="list-item" *ngIf="element.sitename"><strong>Site Name:</strong>{{ element.sitename }}</div>
+            <div class="list-item" *ngIf="element.sitename">
+              <strong class="label">Site Name:</strong>{{ element.sitename }}
+            </div>
             <!-- Site Address -->
             <div class="list-item" *ngIf="element.address || element.city || element.state || element.zip">
-              <strong>Site Address:</strong>{{ element.address }}, {{ element.city }}, {{ element.state }}
-              {{ element.zip }}
+              <strong class="label">Site Address:</strong>
+              <span class="content"
+                >{{ element.address }}, {{ element.city }}, {{ element.state }} {{ element.zip }}</span
+              >
             </div>
             <!-- Building Classification-->
             <div class="list-item" *ngIf="element.buildingclassification">
-              <strong>Building Classification:</strong>{{ element.buildingclassification }}
+              <strong class="label">Building Classification:</strong
+              ><span class="content">{{ element.buildingclassification }}</span>
             </div>
             <!-- Transport Type -->
             <div class="list-item" *ngIf="element.transporttype">
-              <strong>Transport Type:</strong>{{ element.transporttype }}
+              <strong class="label">Transport Type:</strong><span class="content">{{ element.transporttype }}</span>
             </div>
             <!-- Order Acceptance -->
             <div class="list-item" *ngIf="element.orderacceptancedate">
-              <strong>Order Acceptance:</strong>{{ element.orderacceptancedate }}
+              <strong class="label">Order Acceptance:</strong
+              ><span class="content">{{ element.orderacceptancedate }}</span>
             </div>
             <!-- Result -->
-            <div class="list-item" *ngIf="element.result"><strong>Result:</strong>{{ element.result }}</div>
+            <div class="list-item" *ngIf="element.result">
+              <strong class="label">Result:</strong><span class="content">{{ element.result }}</span>
+            </div>
             <!-- Response Title -->
             <div class="list-item" *ngIf="element.responsetitle">
-              <strong>Response Title:</strong>{{ element.responsetitle }}
+              <strong class="label">Response Title:</strong><span class="content">{{ element.responsetitle }}</span>
             </div>
             <!-- Notes -->
-            <div class="list-item" *ngIf="element.notes"><strong>Notes:</strong>{{ element.notes }}</div>
+            <div class="list-item" *ngIf="element.notes">
+              <strong class="label">Notes:</strong><span class="content">{{ element.notes }}</span>
+            </div>
             <!-- Century Update -->
             <div class="list-item" *ngIf="element.centuryupdate">
-              <strong>Century Update:</strong>{{ element.centuryupdate }}
+              <strong class="label">Century Update:</strong><span class="content">{{ element.centuryupdate }}</span>
             </div>
             <!-- Action -->
-            <div class="list-item" *ngIf="element.action"><strong>Action:</strong>{{ element.action }}</div>
+            <div class="list-item" *ngIf="element.action">
+              <strong class="label">Action:</strong><span class="content">{{ element.action }}</span>
+            </div>
             <!-- Exception Message -->
             <div class="list-item" *ngIf="element.exceptionmessage">
-              <strong>Exception Message:</strong>{{ element.exceptionmessage }}
+              <strong class="label">Exception Message:</strong
+              ><span class="content">{{ element.exceptionmessage }}</span>
             </div>
             <!-- CPM Email Update -->
-            <div class="list-item"><strong>CPM Email Update:&nbsp;</strong>{{ element.cpmemailupdate || 'N/A' }}</div>
+            <div class="list-item">
+              <strong class="label">CPM Email Update:&nbsp;</strong
+              ><span class="content">{{ element.cpmemailupdate || 'N/A' }}</span>
+            </div>
           </div>
         </td>
       </ng-container>

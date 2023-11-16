@@ -87,9 +87,14 @@ tr.element-row:not(.expanded-row):active {
   padding-left: 53px;
   margin: 8px 16px;
   display: flex;
+  flex-wrap: wrap;
 
-  strong {
+  .label {
     width: 200px;
+  }
+
+  .content {
+    width: calc(100% - 200px);
   }
 }
 
