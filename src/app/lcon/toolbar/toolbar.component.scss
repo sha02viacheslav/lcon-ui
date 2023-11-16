@@ -21,9 +21,10 @@
     height: 46px;
     border: none;
     outline: none !important;
-    width: 100%;
+    width: calc(100% - 24px);
     border-radius: 40px;
     font-size: 1rem;
+    padding-right: 32px;
   }
 
   button {
