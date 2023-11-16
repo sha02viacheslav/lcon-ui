@@ -2,7 +2,7 @@ import { ModuleWithProviders, NgModule, Optional, SkipSelf, Injectable } from '@
 import { CommonModule } from '@angular/common';
 import { NbAuthModule, NbDummyAuthStrategy } from '@nebular/auth';
 import { NbSecurityModule, NbRoleProvider } from '@nebular/security';
-import { of as observableOf, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ServerDetails } from '../@core/config.core';
 
 import { throwIfAlreadyLoaded } from './module-import-guard';
@@ -25,6 +25,7 @@ export class NbSimpleRoleProvider extends NbRoleProvider {
       this.http.get(`${ServerDetails.baseUrl}/auth/session`, { withCredentials: true }).subscribe((resp: any) => {
         obs.next(resp.data.role);
       }, (error: any) => {
+        console.log(error);
         obs.next('admin');
       });
     });

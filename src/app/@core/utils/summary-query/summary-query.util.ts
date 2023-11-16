@@ -13,10 +13,10 @@ export const getSummaryQuery = (summaryType: SummaryType) => {
     .set('noResponse', 'emailresponsedate IS NULL AND thirdnotificationdate IS NOT NULL') // "emailresponsedate IS NULL AND status != 'Skipped' AND status != 'Completed'"
     .set('totalOutbound', 'firstnotificationdate IS NOT NULL')
     .set('totalInbound', 'emailresponsedate IS NOT NULL') // "firstnotificationdate IS NOT NULL AND emailresponsedate IS NOT NULL"
-    .set('noChange', "(lconconfirmed IS NOT NULL OR lconconfirmed != '')")
-    .set('lconChange', "(lconchange IS NOT NULL OR lconchange != '')")
-    .set('alconChange', "(alconchange IS NOT NULL OR alconchange != '')")
-    .set('demarcChange', "(demarcchange IS NOT NULL OR demarcchange != '')")
+    .set('noChange', "(lconconfirmed != '')")
+    .set('lconChange', "(lconchange != '')")
+    .set('alconChange', "(alconchange != '')")
+    .set('demarcChange', "(demarcchange != '')")
     .set('totalSuccessful', "status LIKE '%Completed%'")
     .set('totalFailed', "status LIKE '%Fallout%'");
 

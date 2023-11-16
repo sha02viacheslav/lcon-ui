@@ -1,23 +1,23 @@
 export interface IEscalation {
     id: number;
-    submittedByNTID: String;
-    submittedByName: String;
-    email: String;
-    orderNumber: String;
-    siteName: String;
-    deliveryOrg: String;
-    requestType: String;
-    details: String;
+    submittedByNTID: string;
+    submittedByName: string;
+    email: string;
+    orderNumber: string;
+    siteName: string;
+    deliveryOrg: string;
+    requestType: string;
+    details: string;
     reviewed?: boolean;
-    reviewer?: String;
-    reviewerNote?: String;
-    reviewerEmail?: String;
-    reviewerStatus?: String;
+    reviewer?: string;
+    reviewerNote?: string;
+    reviewerEmail?: string;
+    reviewerStatus?: string;
     reviewedDate?: Date;
     resolvedDate?: Date;
     hidden?: boolean;
     submittedDate?: Date;
-    resolvedNote?: String;
-    resolved?: String;
-    resolution: String;
+    resolvedNote?: string;
+    resolved?: string;
+    resolution: string;
 }

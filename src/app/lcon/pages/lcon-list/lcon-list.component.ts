@@ -15,6 +15,7 @@ import { getSummaryQuery, sanitizeData } from 'src/app/@core/utils';
 import { ApiService } from 'src/app/api.service';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
+import { BlockUIService } from 'ng-block-ui';
 
 @Component({
   selector: 'app-lcon-list',
@@ -30,7 +31,6 @@ import * as moment from 'moment';
 })
 export class LconListComponent {
   readonly SummaryType = SummaryType;
-  isLoading = false;
   summaryType: SummaryType;
   displayedColumns: string[] = [
     'sr',
@@ -47,7 +47,7 @@ export class LconListComponent {
   totalCnt: number;
   dateFilter: { start: string; end: string };
   typeOptions: { value: SummaryType; label: string }[] = [];
-  search: string = '';
+  search = '';
 
   titles: { [key: string]: string } = {
     [SummaryType.TOTAL_OUTBOUND]: 'Outbound Details - All',
@@ -72,8 +72,8 @@ export class LconListComponent {
     private apiService: ApiService,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
-    private router: Router,
     private toastr: ToastrService,
+    private blockUIService: BlockUIService,
   ) {}
 
   ngOnInit(): void {
@@ -152,7 +152,7 @@ export class LconListComponent {
   }
 
   private getLconList() {
-    this.isLoading = true;
+    this.blockUIService.start('APP', `Loading...`);
     this.apiService
       .getLconList({
         search: this.search || '',
@@ -165,7 +165,7 @@ export class LconListComponent {
       })
       .subscribe(
         (res) => {
-          this.isLoading = false;
+          this.blockUIService.stop('APP');
           if (!res.success) {
             this.snackBar.open(res.message?.[0] || '', 'Dismiss', { duration: 4000 });
             return;
@@ -174,14 +174,14 @@ export class LconListComponent {
           this.totalCnt = res.result.totalCount;
         },
         (err: HttpErrorResponse) => {
-          this.isLoading = false;
+          this.blockUIService.stop('APP');
           this.snackBar.open(err.message || '', 'Dismiss', { duration: 4000 });
         },
       );
   }
 
   exportXls() {
-    this.isLoading = true;
+    this.blockUIService.start('APP', `Loading...`);
     this.apiService
       .getLconList({
         search: this.search || '',
@@ -192,7 +192,7 @@ export class LconListComponent {
       })
       .subscribe(
         (res) => {
-          this.isLoading = false;
+          this.blockUIService.stop('APP');
           if (!res.success) {
             this.snackBar.open(res.message?.[0] || '', 'Dismiss', { duration: 4000 });
             return;
@@ -233,7 +233,7 @@ export class LconListComponent {
               'Century Update': rawData.centuryupdate,
               Action: rawData.action,
               'Exception Message': rawData.exceptionmessage,
-              'CPM Name': rawData.cpmemailupdate,
+              'CPM Email Update': rawData.cpmemailupdate,
             };
           });
 
@@ -245,7 +245,7 @@ export class LconListComponent {
           XLSX.writeFile(wb, `${this.titles[this.summaryType]}.xlsx`);
         },
         (err: HttpErrorResponse) => {
-          this.isLoading = false;
+          this.blockUIService.stop('APP');
           this.snackBar.open(err.message || '', 'Dismiss', { duration: 4000 });
         },
       );

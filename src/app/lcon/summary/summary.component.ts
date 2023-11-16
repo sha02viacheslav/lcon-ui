@@ -4,6 +4,7 @@ import { ApiService } from '../../api.service';
 import { SummaryType } from '@enums';
 import { getSummaryQuery } from '../../@core/utils';
 import * as moment from 'moment/moment';
+import { BlockUIService } from 'ng-block-ui';
 
 @Component({
   selector: 'app-summary',
@@ -12,7 +13,6 @@ import * as moment from 'moment/moment';
 })
 export class SummaryComponent implements OnInit {
   readonly SummaryType = SummaryType;
-  isLoading: boolean = true;
   currentYear = new Date().getFullYear();
   dateFilter: { start: string; end: string };
 
@@ -46,7 +46,7 @@ export class SummaryComponent implements OnInit {
       'firstnotificationdate IS NOT NULL AND secondnotificationdate IS NULL AND emailresponsedate IS NOT NULL',
     )
     .set(this.keys.get(3), 'secondnotificationdate IS NOT NULL AND emailresponsedate IS NOT NULL')
-    .set(this.keys.get(4), "status LIKE '%Skipped%'")
+    .set(this.keys.get(4), "status = 'Skipped'")
     .set(this.keys.get(5), "emailresponsedate IS NULL AND status != 'Skipped' AND status != 'Completed'");
 
   queries = new Map<string, number>();
@@ -54,14 +54,14 @@ export class SummaryComponent implements OnInit {
   weeklyTotals: any[];
   monthlyTotals: any[];
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private blockUIService: BlockUIService) {}
 
   ngOnInit(): void {
     this.loadData();
   }
 
   private async loadData() {
-    this.isLoading = true;
+    this.blockUIService.start('APP', `Loading...`);
     const promises = [];
     for (let i = 0; i < this.params.size; i++) {
       promises.push(
@@ -86,7 +86,7 @@ export class SummaryComponent implements OnInit {
       this.loadChart();
       this.getPastWeekSummary();
       this.getPastYearSummary();
-      this.isLoading = false;
+      this.blockUIService.stop('APP');
     });
   }
 
@@ -109,6 +109,7 @@ export class SummaryComponent implements OnInit {
 
   handleChangeDateFilter(value: any) {
     this.dateFilter = value;
+    this.loadData();
   }
 
   private async getPastWeekSummary() {

@@ -3,6 +3,7 @@ import { ChartData, ChartOptions, ChartType } from 'chart.js';
 import { ApiService } from '../../api.service';
 import { SummaryType } from '../../@core/enums';
 import { getSummaryQuery } from '../../@core/utils';
+import { BlockUIService } from 'ng-block-ui';
 
 @Component({
   selector: 'app-inbound',
@@ -11,7 +12,6 @@ import { getSummaryQuery } from '../../@core/utils';
 })
 export class InboundComponent implements OnInit {
   readonly SummaryType = SummaryType;
-  isLoading: boolean = true;
   dateFilter: { start: string; end: string };
 
   chartData: ChartData;
@@ -34,14 +34,14 @@ export class InboundComponent implements OnInit {
   alconChange: number;
   demarcChange: number;
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private blockUIService: BlockUIService) {}
 
   ngOnInit(): void {
     this.loadData();
   }
 
   private async loadData() {
-    this.isLoading = true;
+    this.blockUIService.start('APP', `Loading...`);
     const promises = [];
     promises.push(
       new Promise((resolve) => {
@@ -94,7 +94,7 @@ export class InboundComponent implements OnInit {
 
     Promise.all(promises).then((res) => {
       this.loadChart();
-      this.isLoading = false;
+      this.blockUIService.stop('APP');
     });
   }
 

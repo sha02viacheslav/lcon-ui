@@ -5,8 +5,6 @@ import { filter } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ServerDetails } from '../config.core';
 
-declare const ga: any;
-
 @Injectable()
 export class AnalyticsService {
   private enabled: boolean;

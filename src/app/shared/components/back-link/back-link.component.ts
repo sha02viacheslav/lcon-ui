@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit, EventEmitter, Input } from '@angular/core';
+import { Component, EventEmitter, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterService } from 'src/app/@core/services';
 
@@ -8,13 +8,11 @@ import { RouterService } from 'src/app/@core/services';
   templateUrl: './back-link.component.html',
   styleUrls: ['./back-link.component.scss'],
 })
-export class BackLinkComponent implements OnInit {
+export class BackLinkComponent {
   @Input() handleBack = new EventEmitter();
   @Input() defaultBackTo: string | undefined;
   @Input() title = '';
   constructor(private location: Location, private router: Router, private routerService: RouterService) {}
-
-  ngOnInit(): void {}
 
   onClick() {
     if (this.handleBack.observers.length) {

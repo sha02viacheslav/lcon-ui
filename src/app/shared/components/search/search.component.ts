@@ -8,7 +8,7 @@ import { debounceTime, Subject } from 'rxjs';
 })
 export class SearchComponent implements OnInit {
   @Output() onChange: EventEmitter<string> = new EventEmitter<string>();
-  search: string = '';
+  search = '';
   searchInput$: Subject<string> = new Subject<string>();
 
   ngOnInit() {

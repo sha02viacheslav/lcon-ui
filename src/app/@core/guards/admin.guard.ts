@@ -24,6 +24,7 @@ export class AdminGuard implements CanActivate {
                     }
                 },
                 (error: any) => {
+                    console.log(error);
                     this.router.navigateByUrl('/login');
                     sub.next(false);
                 },

@@ -1,8 +1,11 @@
 ---
 applications:
 - name: lcon-dashboard-ui
-  path: ./dist
+  path: ./
   memory: 256MB
   disk_quota: 500MB
   instances: 1
   stack: cflinuxfs3
+  buildpacks:
+    - https://github.com/cloudfoundry/staticfile-buildpack
+

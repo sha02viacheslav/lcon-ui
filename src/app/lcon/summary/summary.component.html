@@ -1,113 +1,94 @@
-<ng-template #loading>
-  <div class="spacer"></div>
-  <div class="lds-roller">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
-  <div class="text title">Loading summary...</div>
-</ng-template>
-
-<ng-container *ngIf="!isLoading; else loading">
-  <div class="page-wrap">
-    <div id="summary-container" class="container">
-      <!-- Chart -->
-      <div id="summary-pie-chart" class="column chart">
-        <app-chart *ngIf="!isLoading" [type]="chartType" [data]="chartData" [options]="chartOptions"></app-chart>
+<div class="page-wrap">
+  <div id="summary-container" class="container">
+    <!-- Chart -->
+    <div id="summary-pie-chart" class="column chart">
+      <app-chart [type]="chartType" [data]="chartData" [options]="chartOptions"></app-chart>
+    </div>
+    <!-- Totals -->
+    <div id="summary-totals" class="column text">
+      <app-date-filter (onChange)="handleChangeDateFilter($event)"></app-date-filter>
+      <div class="spacer2"></div>
+      <div class="mat-headline-4 text title">
+        Total Activity: <span>{{ queries.get('totalActivity') }}</span>
       </div>
-      <!-- Totals -->
-      <div id="summary-totals" class="column text">
-        <app-date-filter (onChange)="handleChangeDateFilter($event)"></app-date-filter>
-        <div class="spacer2"></div>
-        <div class="mat-headline-4 text title">
-          Total Activity: <span>{{ queries.get('totalActivity') }}</span>
-        </div>
-        <div class="spacer2"></div>
-        <div class="pointer">
-          <!-- Outbound -->
-          <mat-grid-list cols="3" rowHeight="6:1" class="outbound total">
-            <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.TOTAL_OUTBOUND }}">
-              Outbound Total
-            </mat-grid-tile>
-            <mat-grid-tile routerLink="/list/{{ SummaryType.TOTAL_OUTBOUND }}">
-              {{ queries.get('totalOutbound') }}
-            </mat-grid-tile>
-          </mat-grid-list>
-          <mat-grid-list cols="3" rowHeight="6:1">
-            <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.FIRST_OUTBOUND }}">
-              1st Notification Sent
-            </mat-grid-tile>
-            <mat-grid-tile routerLink="/list/{{ SummaryType.FIRST_OUTBOUND }}">
-              {{ queries.get('firstOutbound') }}
-            </mat-grid-tile>
-            <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.SECOND_OUTBOUND }}">
-              2nd Notification Send
-            </mat-grid-tile>
-            <mat-grid-tile routerLink="/list/{{ SummaryType.SECOND_OUTBOUND }}">
-              {{ queries.get('secondOutbound') }}
-            </mat-grid-tile>
-          </mat-grid-list>
-          <!-- Inbound -->
-          <mat-grid-list cols="3" rowHeight="6:1" class="inbound total">
-            <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.TOTAL_INBOUND }}">
-              Inbound Total
-            </mat-grid-tile>
-            <mat-grid-tile routerLink="/list/{{ SummaryType.TOTAL_INBOUND }}">
-              {{ queries.get('totalInbound') }}
-            </mat-grid-tile>
-          </mat-grid-list>
-          <mat-grid-list cols="3" rowHeight="6:1">
-            <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.FIRST_INBOUND }}">
-              1st Notification Responses
-            </mat-grid-tile>
-            <mat-grid-tile routerLink="/list/{{ SummaryType.FIRST_INBOUND }}">
-              {{ queries.get('firstInbound') }}
-            </mat-grid-tile>
-            <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.SECOND_INBOUND }}">
-              2nd Notification Responses
-            </mat-grid-tile>
-            <mat-grid-tile routerLink="/list/{{ SummaryType.SECOND_INBOUND }}">
-              {{ queries.get('secondInbound') }}
-            </mat-grid-tile>
-          </mat-grid-list>
-          <!-- Unreachable -->
-          <mat-grid-list cols="3" rowHeight="6:1" class="unreachable total">
-            <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.TOTAL_UNREACHABLE }}">
-              Unreachable Total
-            </mat-grid-tile>
-            <mat-grid-tile routerLink="/list/{{ SummaryType.TOTAL_UNREACHABLE }}">
-              {{ queries.get('totalUnreachable') }}
-            </mat-grid-tile>
-          </mat-grid-list>
-          <mat-grid-list cols="3" rowHeight="6:1">
-            <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.INVALID }}"> Invalid Email </mat-grid-tile>
-            <mat-grid-tile routerLink="/list/{{ SummaryType.INVALID }}">
-              {{ queries.get('invalid') }}
-            </mat-grid-tile>
-            <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.NO_RESPONSE }}"> No Response </mat-grid-tile>
-            <mat-grid-tile routerLink="/list/{{ SummaryType.NO_RESPONSE }}">
-              {{ queries.get('noResponse') }}
-            </mat-grid-tile>
-          </mat-grid-list>
-        </div>
+      <div class="spacer2"></div>
+      <div class="pointer">
+        <!-- Outbound -->
+        <mat-grid-list cols="3" rowHeight="6:1" class="outbound total">
+          <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.TOTAL_OUTBOUND }}">
+            Outbound Total
+          </mat-grid-tile>
+          <mat-grid-tile routerLink="/list/{{ SummaryType.TOTAL_OUTBOUND }}">
+            {{ queries.get('totalOutbound') }}
+          </mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list cols="3" rowHeight="6:1">
+          <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.FIRST_OUTBOUND }}">
+            1st Notification Sent
+          </mat-grid-tile>
+          <mat-grid-tile routerLink="/list/{{ SummaryType.FIRST_OUTBOUND }}">
+            {{ queries.get('firstOutbound') }}
+          </mat-grid-tile>
+          <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.SECOND_OUTBOUND }}">
+            2nd Notification Send
+          </mat-grid-tile>
+          <mat-grid-tile routerLink="/list/{{ SummaryType.SECOND_OUTBOUND }}">
+            {{ queries.get('secondOutbound') }}
+          </mat-grid-tile>
+        </mat-grid-list>
+        <!-- Inbound -->
+        <mat-grid-list cols="3" rowHeight="6:1" class="inbound total">
+          <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.TOTAL_INBOUND }}"> Inbound Total </mat-grid-tile>
+          <mat-grid-tile routerLink="/list/{{ SummaryType.TOTAL_INBOUND }}">
+            {{ queries.get('totalInbound') }}
+          </mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list cols="3" rowHeight="6:1">
+          <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.FIRST_INBOUND }}">
+            1st Notification Responses
+          </mat-grid-tile>
+          <mat-grid-tile routerLink="/list/{{ SummaryType.FIRST_INBOUND }}">
+            {{ queries.get('firstInbound') }}
+          </mat-grid-tile>
+          <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.SECOND_INBOUND }}">
+            2nd Notification Responses
+          </mat-grid-tile>
+          <mat-grid-tile routerLink="/list/{{ SummaryType.SECOND_INBOUND }}">
+            {{ queries.get('secondInbound') }}
+          </mat-grid-tile>
+        </mat-grid-list>
+        <!-- Unreachable -->
+        <mat-grid-list cols="3" rowHeight="6:1" class="unreachable total">
+          <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.TOTAL_UNREACHABLE }}">
+            Unreachable Total
+          </mat-grid-tile>
+          <mat-grid-tile routerLink="/list/{{ SummaryType.TOTAL_UNREACHABLE }}">
+            {{ queries.get('totalUnreachable') }}
+          </mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list cols="3" rowHeight="6:1">
+          <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.INVALID }}"> Invalid Email </mat-grid-tile>
+          <mat-grid-tile routerLink="/list/{{ SummaryType.INVALID }}">
+            {{ queries.get('invalid') }}
+          </mat-grid-tile>
+          <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.NO_RESPONSE }}"> No Response </mat-grid-tile>
+          <mat-grid-tile routerLink="/list/{{ SummaryType.NO_RESPONSE }}">
+            {{ queries.get('noResponse') }}
+          </mat-grid-tile>
+        </mat-grid-list>
       </div>
     </div>
-
-    <div class="spacer2"></div>
-    <app-breakdown-table title="Past Week" dateHeader="Past 7days view" dateFormat="M/d/YYYY" [data]="weeklyTotals">
-    </app-breakdown-table>
-    <div class="spacer2"></div>
-    <app-breakdown-table
-      title="Monthly Breakdown"
-      [dateHeader]="currentYear.toString()"
-      dateFormat="MMM"
-      [data]="monthlyTotals"
-    >
-    </app-breakdown-table>
   </div>
-</ng-container>
+
+  <div class="spacer2"></div>
+  <app-breakdown-table title="Past Week" dateHeader="Past 7days view" dateFormat="M/d/YYYY" [data]="weeklyTotals">
+  </app-breakdown-table>
+  <div class="spacer2"></div>
+  <app-breakdown-table
+    title="Monthly Breakdown"
+    [dateHeader]="currentYear.toString()"
+    dateFormat="MMM"
+    [data]="monthlyTotals"
+  >
+  </app-breakdown-table>
+</div>

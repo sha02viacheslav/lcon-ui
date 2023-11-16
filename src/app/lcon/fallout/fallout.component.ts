@@ -14,6 +14,7 @@ import * as moment from 'moment/moment';
 import { ToastrService } from 'ngx-toastr';
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
 import { SummaryType } from '@enums';
+import { BlockUIService } from 'ng-block-ui';
 
 @Component({
   selector: 'app-fallout',
@@ -33,7 +34,6 @@ export class FalloutComponent implements OnInit, AfterViewInit {
   expandedElement: Lcon | null;
   dataSource: MatTableDataSource<Lcon>;
   totalCnt: number;
-  isLoading = true;
   dateFilter: { start: string; end: string };
 
   chartData: ChartData;
@@ -51,12 +51,17 @@ export class FalloutComponent implements OnInit, AfterViewInit {
   totalAttempted: number;
   totalSuccessful: number;
   totalFailed: number;
-  search: string = '';
+  search = '';
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private apiService: ApiService, private snackBar: MatSnackBar, private toastr: ToastrService) {}
+  constructor(
+    private apiService: ApiService,
+    private snackBar: MatSnackBar,
+    private toastr: ToastrService,
+    private blockUIService: BlockUIService,
+  ) {}
 
   ngOnInit() {
     this.getLconList();
@@ -75,6 +80,7 @@ export class FalloutComponent implements OnInit, AfterViewInit {
   }
 
   private async loadData() {
+    this.blockUIService.start('APP', `Loading...`);
     const promises = [];
     promises.push(
       new Promise((resolve) => {
@@ -109,6 +115,7 @@ export class FalloutComponent implements OnInit, AfterViewInit {
 
     Promise.all(promises).then((res) => {
       this.loadChart();
+      this.blockUIService.stop('APP');
     });
   }
 
@@ -126,7 +133,7 @@ export class FalloutComponent implements OnInit, AfterViewInit {
   }
 
   private getLconList() {
-    this.isLoading = true;
+    this.blockUIService.start('APP', `Loading...`);
     this.apiService
       .getLconList({
         search: this.search || '',
@@ -139,7 +146,7 @@ export class FalloutComponent implements OnInit, AfterViewInit {
       })
       .subscribe(
         (res) => {
-          this.isLoading = false;
+          this.blockUIService.stop('APP');
           if (!res.success) {
             this.snackBar.open(res.message?.[0] || '', 'Dismiss', { duration: 4000 });
             return;
@@ -148,7 +155,7 @@ export class FalloutComponent implements OnInit, AfterViewInit {
           this.totalCnt = res.result.totalCount;
         },
         (err: HttpErrorResponse) => {
-          this.isLoading = false;
+          this.blockUIService.stop('APP');
           this.snackBar.open(err.message || '', 'Dismiss', { duration: 4000 });
         },
       );
@@ -161,7 +168,7 @@ export class FalloutComponent implements OnInit, AfterViewInit {
   }
 
   exportXls() {
-    this.isLoading = true;
+    this.blockUIService.start('APP', `Loading...`);
     this.apiService
       .getLconList({
         search: this.search || '',
@@ -172,7 +179,7 @@ export class FalloutComponent implements OnInit, AfterViewInit {
       })
       .subscribe(
         (res) => {
-          this.isLoading = false;
+          this.blockUIService.stop('APP');
           if (!res.success) {
             this.snackBar.open(res.message?.[0] || '', 'Dismiss', { duration: 4000 });
             return;
@@ -209,7 +216,7 @@ export class FalloutComponent implements OnInit, AfterViewInit {
           XLSX.writeFile(wb, `fallout.xlsx`);
         },
         (err: HttpErrorResponse) => {
-          this.isLoading = false;
+          this.blockUIService.stop('APP');
           this.snackBar.open(err.message || '', 'Dismiss', { duration: 4000 });
         },
       );

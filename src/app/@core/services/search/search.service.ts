@@ -6,7 +6,7 @@ import { debounceTime, Subject } from 'rxjs';
 })
 export class SearchService {
   showSearchResult = false;
-  search: string = '';
+  search = '';
   searchInput$: Subject<string> = new Subject<string>();
 
   constructor() {

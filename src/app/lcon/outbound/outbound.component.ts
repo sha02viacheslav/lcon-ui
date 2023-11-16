@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../api.service';
 import { SummaryType } from '@enums';
+import { BlockUIService } from 'ng-block-ui';
 
 @Component({
   selector: 'app-outbound',
@@ -9,8 +10,6 @@ import { SummaryType } from '@enums';
 })
 export class OutboundComponent implements OnInit {
   readonly SummaryType = SummaryType;
-
-  isLoading: boolean = true;
   dateFilter: { start: string; end: string };
 
   keys = new Map<number, string>()
@@ -28,14 +27,14 @@ export class OutboundComponent implements OnInit {
 
   queries = new Map<string, number>();
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private blockUIService: BlockUIService) {}
 
   ngOnInit(): void {
     this.loadData();
   }
 
   private async loadData() {
-    this.isLoading = true;
+    this.blockUIService.start('APP', `Loading...`);
     const promises = [];
     for (let i = 0; i < this.params.size; i++) {
       promises.push(
@@ -50,7 +49,7 @@ export class OutboundComponent implements OnInit {
 
     Promise.all(promises).then((res) => {
       this.queries.set(this.keys.get(2), this.queries.get('firstOutbound') + this.queries.get('secondOutbound'));
-      this.isLoading = false;
+      this.blockUIService.stop('APP');
     });
   }
 
