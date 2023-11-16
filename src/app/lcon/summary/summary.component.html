@@ -6,7 +6,10 @@
     </div>
     <!-- Totals -->
     <div id="summary-totals" class="column text">
-      <app-date-filter (onChange)="handleChangeDateFilter($event)"></app-date-filter>
+      <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16">
+        <app-date-filter #dateFilterComponent (onChange)="handleChangeDateFilter($event)"></app-date-filter>
+        <button *ngIf="dateFilter" mat-raised-button (click)="clearFilters()">Clear Filters</button>
+      </div>
       <div class="spacer2"></div>
       <div class="mat-headline-4 text title">
         Total Activity: <span>{{ queries.get('totalActivity') }}</span>

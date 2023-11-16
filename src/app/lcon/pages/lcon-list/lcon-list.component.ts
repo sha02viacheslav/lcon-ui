@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -16,6 +16,8 @@ import { ApiService } from 'src/app/api.service';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 import { BlockUIService } from 'ng-block-ui';
+import { DateFilterComponent } from '../../../date-filter/date-filter.component';
+import { SearchComponent } from '../../../shared/components/search/search.component';
 
 @Component({
   selector: 'app-lcon-list',
@@ -29,7 +31,7 @@ import { BlockUIService } from 'ng-block-ui';
     ]),
   ],
 })
-export class LconListComponent {
+export class LconListComponent implements AfterViewInit {
   readonly SummaryType = SummaryType;
   summaryType: SummaryType;
   displayedColumns: string[] = [
@@ -67,6 +69,8 @@ export class LconListComponent {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('dateFilterComponent') dateFilterComponent: DateFilterComponent;
+  @ViewChild('searchComponent') searchComponent: SearchComponent;
 
   constructor(
     private apiService: ApiService,
@@ -149,6 +153,22 @@ export class LconListComponent {
 
   handleChangeType(event: MatButtonToggleChange) {
     this.getLconList();
+  }
+
+  handleChangeSearch(value: string) {
+    this.search = value;
+    this.getLconList();
+  }
+
+  clearFilters() {
+    this.dateFilterComponent.clear();
+    this.dateFilter = null;
+    if (this.search) {
+      // Clear search will run getLconList()
+      this.searchComponent.clearSearch();
+    } else {
+      this.getLconList();
+    }
   }
 
   private getLconList() {
@@ -249,10 +269,5 @@ export class LconListComponent {
           this.snackBar.open(err.message || '', 'Dismiss', { duration: 4000 });
         },
       );
-  }
-
-  handleChangeSearch(value: string) {
-    this.search = value;
-    this.getLconList();
   }
 }

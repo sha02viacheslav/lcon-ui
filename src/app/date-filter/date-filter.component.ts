@@ -96,4 +96,9 @@ export class DateFilterComponent implements OnInit {
       }
     }
   }
+
+  public clear() {
+    this.range.patchValue({ start: null, end: null });
+    this.type = DateRangeType.CUSTOM;
+  }
 }

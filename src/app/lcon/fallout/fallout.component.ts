@@ -15,6 +15,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
 import { SummaryType } from '@enums';
 import { BlockUIService } from 'ng-block-ui';
+import { DateFilterComponent } from '../../date-filter/date-filter.component';
+import { SearchComponent } from '../../shared/components/search/search.component';
 
 @Component({
   selector: 'app-fallout',
@@ -55,6 +57,8 @@ export class FalloutComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('dateFilterComponent') dateFilterComponent: DateFilterComponent;
+  @ViewChild('searchComponent') searchComponent: SearchComponent;
 
   constructor(
     private apiService: ApiService,
@@ -167,6 +171,22 @@ export class FalloutComponent implements OnInit, AfterViewInit {
     this.loadData();
   }
 
+  handleChangeSearch(value: string) {
+    this.search = value;
+    this.getLconList();
+  }
+
+  clearFilters() {
+    this.dateFilterComponent.clear();
+    this.dateFilter = null;
+    if (this.search) {
+      // Clear search will run getLconList()
+      this.searchComponent.clearSearch();
+    } else {
+      this.getLconList();
+    }
+  }
+
   exportXls() {
     this.blockUIService.start('APP', `Loading...`);
     this.apiService
@@ -220,10 +240,5 @@ export class FalloutComponent implements OnInit, AfterViewInit {
           this.snackBar.open(err.message || '', 'Dismiss', { duration: 4000 });
         },
       );
-  }
-
-  handleChangeSearch(value: string) {
-    this.search = value;
-    this.getLconList();
   }
 }

@@ -1,5 +1,8 @@
 <div class="page-wrap">
-  <app-date-filter (onChange)="handleChangeDateFilter($event)"></app-date-filter>
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16">
+    <app-date-filter #dateFilterComponent (onChange)="handleChangeDateFilter($event)"></app-date-filter>
+    <button *ngIf="dateFilter" mat-raised-button (click)="clearFilters()">Clear Filters</button>
+  </div>
   <div class="spacer2"></div>
   <div class="mat-headline-3 text title">
     Total Responses: <span class="total">{{ totalInbound }}</span>

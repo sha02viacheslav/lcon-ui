@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
 import { ApiService } from '../../api.service';
-import { SummaryType } from '../../@core/enums';
+import { SummaryType } from '@enums';
 import { getSummaryQuery } from '../../@core/utils';
 import { BlockUIService } from 'ng-block-ui';
+import { DateFilterComponent } from '../../date-filter/date-filter.component';
 
 @Component({
   selector: 'app-inbound',
@@ -34,7 +35,12 @@ export class InboundComponent implements OnInit {
   alconChange: number;
   demarcChange: number;
 
-  constructor(private api: ApiService, private blockUIService: BlockUIService) {}
+  @ViewChild('dateFilterComponent') dateFilterComponent: DateFilterComponent;
+
+  constructor(
+    private api: ApiService,
+    private blockUIService: BlockUIService,
+  ) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -113,6 +119,12 @@ export class InboundComponent implements OnInit {
 
   handleChangeDateFilter(value: any) {
     this.dateFilter = value;
+    this.loadData();
+  }
+
+  clearFilters() {
+    this.dateFilterComponent.clear();
+    this.dateFilter = null;
     this.loadData();
   }
 }

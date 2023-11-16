@@ -1,5 +1,8 @@
 <div class="page-wrap">
-  <app-date-filter (onChange)="handleChangeDateFilter($event)"></app-date-filter>
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16">
+    <app-date-filter #dateFilterComponent (onChange)="handleChangeDateFilter($event)"></app-date-filter>
+    <button *ngIf="dateFilter" mat-raised-button (click)="clearFilters()">Clear Filters</button>
+  </div>
   <div id="outbound-data" class="container text">
     <mat-grid-list cols="2" rowHeight="8:1">
       <mat-grid-tile routerLink="/list/{{ SummaryType.FIRST_OUTBOUND }}" class="mat-headline-2 pointer" rowspan="3">

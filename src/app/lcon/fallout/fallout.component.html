@@ -1,8 +1,9 @@
 <div class="page-wrap">
   <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16">
-    <app-date-filter (onChange)="handleChangeDateFilter($event)"></app-date-filter>
-    <app-search (onChange)="handleChangeSearch($event)"></app-search>
+    <app-date-filter #dateFilterComponent (onChange)="handleChangeDateFilter($event)"></app-date-filter>
+    <app-search #searchComponent (onChange)="handleChangeSearch($event)"></app-search>
     <button mat-raised-button (click)="exportXls()">Export</button>
+    <button *ngIf="search || dateFilter" mat-raised-button (click)="clearFilters()">Clear Filters</button>
   </div>
 
   <div class="summary-wrap">
@@ -12,7 +13,7 @@
       </div>
     </div>
     <div class="summary">
-      Success Rate: <span>{{ (totalSuccessful * 100) / (totalAttempted || 1) | number : '1.1-1' }}%</span>
+      Success Rate: <span>{{ (totalSuccessful * 100) / (totalAttempted || 1) | number: '1.1-1' }}%</span>
     </div>
   </div>
 
@@ -29,12 +30,12 @@
     >
       <ng-container matColumnDef="enddate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Fallout Date</th>
-        <td mat-cell *matCellDef="let element">{{ element.enddate | date : 'MM/dd/YY' }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.enddate | date: 'MM/dd/YY' }}</td>
       </ng-container>
 
       <ng-container matColumnDef="orderacceptancedate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Order Created</th>
-        <td mat-cell *matCellDef="let element">{{ element.orderacceptancedate | date : 'MM/dd/YY' }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.orderacceptancedate | date: 'MM/dd/YY' }}</td>
       </ng-container>
 
       <ng-container matColumnDef="sr">

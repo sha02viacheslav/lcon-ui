@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '../../api.service';
 import { SummaryType } from '@enums';
 import { BlockUIService } from 'ng-block-ui';
+import { DateFilterComponent } from '../../date-filter/date-filter.component';
 
 @Component({
   selector: 'app-outbound',
@@ -27,7 +28,12 @@ export class OutboundComponent implements OnInit {
 
   queries = new Map<string, number>();
 
-  constructor(private api: ApiService, private blockUIService: BlockUIService) {}
+  @ViewChild('dateFilterComponent') dateFilterComponent: DateFilterComponent;
+
+  constructor(
+    private api: ApiService,
+    private blockUIService: BlockUIService,
+  ) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -55,6 +61,12 @@ export class OutboundComponent implements OnInit {
 
   handleChangeDateFilter(value: any) {
     this.dateFilter = value;
+    this.loadData();
+  }
+
+  clearFilters() {
+    this.dateFilterComponent.clear();
+    this.dateFilter = null;
     this.loadData();
   }
 }
