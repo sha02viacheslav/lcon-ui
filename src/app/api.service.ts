@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class ApiService {
-  prodUrl = 'https://lcon-dashboard-api.ho-g2.cf.comcast.net';
+  prodUrl = 'https://lcon-dashboard-api.as-g7.cf.comcast.net';
   apiUrl = environment.production ? this.prodUrl : 'http://localhost:3000';
 
   constructor(private http: HttpClient) {}

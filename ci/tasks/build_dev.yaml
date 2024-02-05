@@ -1,0 +1,16 @@
+---
+platform: linux
+image_resource:
+  type: registry-image
+  source: {
+    repository: node,
+    tag: "18"
+  }
+inputs:
+  - name: lcon-rpa-dashboard-ui-dev
+outputs:
+  - name: build
+run:
+  path: /bin/bash
+  args:
+    -  lcon-rpa-dashboard-ui-dev/ci/scripts/build_dev.sh

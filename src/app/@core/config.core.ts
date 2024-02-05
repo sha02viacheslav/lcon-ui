@@ -1,6 +1,6 @@
 import { environment } from '../../environments/environment';
 
-const baseUrl = 'https://lcon-dashboard-api.ho-g2.cf.comcast.net';
+const baseUrl = 'https://lcon-dashboard-api.as-g7.cf.comcast.net';
 export const ServerDetails = {
   baseUrl: environment.production ? baseUrl : 'http://localhost:3000',
   analytics: false,
@@ -10,7 +10,9 @@ export const ServerDetails = {
 };
 
 export const SsoConfig = {
-  clientId: '67a4e126-22ba-406a-b987-61a2508bc259',
+  clientId: environment.production
+    ? '962bed38-7446-462f-aaf1-b82cc4db92e4'
+    : '67a4e126-22ba-406a-b987-61a2508bc259',
   responseType: 'code',
   redirectUri: environment.production
     ? 'https://lcon-dashboard-ui.ho-g2.cf.comcast.net/auth'

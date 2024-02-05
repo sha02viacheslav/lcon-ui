@@ -70,10 +70,10 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "lcon-test:build:production"
+              "buildTarget": "lcon-test:build:production"
             },
             "development": {
-              "browserTarget": "lcon-test:build:development"
+              "buildTarget": "lcon-test:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -81,7 +81,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "lcon-test:build"
+            "buildTarget": "lcon-test:build"
           }
         },
         "test": {
