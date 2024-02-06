@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Location } from '@angular/common';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,8 +17,20 @@ export class DashboardComponent {
   ];
   activeLink: string;
 
-  constructor(private location: Location) {
+  constructor(
+    private location: Location,
+    private router: Router,
+  ) {
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+      this.updateActiveLinkState();
+    });
+    this.updateActiveLinkState();
+  }
+
+  updateActiveLinkState() {
     const activeLinkIndex = this.tabs.findIndex((item) => this.location.path().includes(item.link));
-    this.activeLink = this.tabs[activeLinkIndex || 0].link;
+    if (activeLinkIndex > -1) {
+      this.activeLink = this.tabs[activeLinkIndex].link;
+    }
   }
 }

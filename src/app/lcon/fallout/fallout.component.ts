@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '../../api.service';
-import { Lcon } from '@models';
+import { Lcon, SearchItem } from '@models';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -16,7 +16,7 @@ import { ChartData, ChartOptions, ChartType } from 'chart.js';
 import { SummaryType } from '@enums';
 import { BlockUIService } from 'ng-block-ui';
 import { DateFilterComponent } from '../../date-filter/date-filter.component';
-import { SearchComponent } from '../../shared/components/search/search.component';
+import { MultipleSearchComponent } from '../../shared/components/multiple-search/multiple-search.component';
 
 @Component({
   selector: 'app-fallout',
@@ -53,12 +53,12 @@ export class FalloutComponent implements OnInit, AfterViewInit {
   totalAttempted: number;
   totalSuccessful: number;
   totalFailed: number;
-  search = '';
+  searchItems: SearchItem[] = [];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('dateFilterComponent') dateFilterComponent: DateFilterComponent;
-  @ViewChild('searchComponent') searchComponent: SearchComponent;
+  @ViewChild('multipleSearchComponent') multipleSearchComponent: MultipleSearchComponent;
 
   constructor(
     private apiService: ApiService,
@@ -140,7 +140,7 @@ export class FalloutComponent implements OnInit, AfterViewInit {
     this.blockUIService.start('APP', `Loading...`);
     this.apiService
       .getLconList({
-        search: this.search || '',
+        multipleSearch: JSON.stringify(this.searchItems),
         pageIndex: this.paginator?.pageIndex || 1,
         pageSize: this.paginator?.pageSize || 10,
         sort: this.sort?.active || 'enddate',
@@ -171,17 +171,17 @@ export class FalloutComponent implements OnInit, AfterViewInit {
     this.loadData();
   }
 
-  handleChangeSearch(value: string) {
-    this.search = value;
+  handleChangeSearch(value: SearchItem[]) {
+    this.searchItems = value;
     this.getLconList();
   }
 
   clearFilters() {
     this.dateFilterComponent.clear();
     this.dateFilter = null;
-    if (this.search) {
+    if (this.searchItems) {
       // Clear search will run getLconList()
-      this.searchComponent.clearSearch();
+      this.multipleSearchComponent.clearSearch();
     } else {
       this.getLconList();
     }
@@ -191,7 +191,7 @@ export class FalloutComponent implements OnInit, AfterViewInit {
     this.blockUIService.start('APP', `Loading...`);
     this.apiService
       .getLconList({
-        search: this.search || '',
+        multipleSearch: JSON.stringify(this.searchItems),
         sort: this.sort?.active || 'enddate',
         order: this.sort?.direction || 'desc',
         ...this.dateFilter,

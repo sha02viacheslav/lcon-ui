@@ -21,6 +21,7 @@
 @include mat.datepicker-theme($lcon-theme);
 @include mat.button-theme($lcon-theme);
 @include mat.icon-theme($lcon-theme);
+@include mat.dialog-theme($lcon-theme);
 
 html,
 body {

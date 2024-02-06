@@ -1,5 +1,5 @@
 <div class="datepicker">
-  <mat-form-field class="row" appearance="outline" subscriptSizing="dynamic" color="primary">
+  <mat-form-field class="w-50" appearance="outline" subscriptSizing="dynamic" color="primary">
     <mat-label>Select a date range</mat-label>
     <mat-select [(ngModel)]="type" (selectionChange)="handleChangeDateRangeType($event.value)">
       <mat-option *ngFor="let item of DATE_RANGE_ITEMS" [value]="item.value">
@@ -10,7 +10,7 @@
   <mat-form-field
     [formGroup]="range"
     *ngIf="type === DateRangeType.CUSTOM || type === DateRangeType.YTD"
-    class="row"
+    class="w-50"
     appearance="outline"
     subscriptSizing="dynamic"
     color="primary"
@@ -31,7 +31,7 @@
       type === DateRangeType.QUARTER ||
       type === DateRangeType.YEARLY
     "
-    class="row"
+    class="w-50"
   >
     <app-week-selector *ngIf="type === DateRangeType.WEEK" (onChange)="handleChangeDate($event)" />
     <app-month-selector *ngIf="type === DateRangeType.MONTH" (onChange)="handleChangeDate($event)" />

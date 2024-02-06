@@ -1,0 +1,15 @@
+<div class="d-flex align-items-center gap-2">
+  @for (item of searchItems; track item; let idx = $index) {
+    <div class="d-flex flex-column align-content-start">
+      <mat-chip-row (removed)="removeSearch(idx)" [editable]="true" (edited)="editSearch(idx, $event)">
+        <span matChipAvatar>Search By {{ item.searchKey | searchLabel }}:</span>
+        {{ item.searchValue }}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+    </div>
+  }
+
+  <button mat-raised-button (click)="addSearch()">Add Search</button>
+</div>

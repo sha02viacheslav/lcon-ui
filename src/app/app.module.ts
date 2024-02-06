@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BlockUIModule } from 'ng-block-ui';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,6 +18,7 @@ import { BlockUIModule } from 'ng-block-ui';
     BrowserAnimationsModule,
     HttpClientModule,
     FlexLayoutModule,
+    SharedModule,
     ToastrModule.forRoot({
       timeOut: 3000,
       preventDuplicates: true,
@@ -24,7 +26,9 @@ import { BlockUIModule } from 'ng-block-ui';
       closeButton: true,
       tapToDismiss: false,
     }),
-    BlockUIModule.forRoot(),
+    BlockUIModule.forRoot({
+      delayStop: 600,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,0 +1,51 @@
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <h2 mat-dialog-title class="page-title mb-0">Add Search</h2>
+  <button mat-icon-button mat-dialog-close tabindex="-1"><mat-icon>close</mat-icon></button>
+</div>
+
+<mat-dialog-content fxLayout="column" class="pt-0">
+  <form class="main-block" [formGroup]="infoForm" (ngSubmit)="submitForm()" autocomplete="off" novalidate>
+    <div class="mt-4">
+      <div formArrayName="fields" *ngFor="let field of infoForm.controls['fields']['controls']; let i = index">
+        <div [formGroupName]="i" class="mb-3 d-flex w-100">
+          <div class="row flex-fill">
+            <div class="col-6">
+              <mat-form-field fxFlex appearance="outline" color="primary">
+                <mat-label>Search Field</mat-label>
+                <mat-select formControlName="searchKey">
+                  <mat-option *ngFor="let item of SEARCH_OPTIONS" [value]="item.value">
+                    {{ item.label }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="field['controls']['searchKey'].getError('required')">Required</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-6">
+              <mat-form-field fxFlex appearance="outline" color="primary">
+                <mat-label>Search Value</mat-label>
+                <input matInput type="text" formControlName="searchValue" />
+                <mat-error *ngIf="field['controls']['searchValue'].getError('required')">Required</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <button mat-icon-button (click)="deleteField(i)" class="mt-1" [class.invisible]="!i && fields.length === 1">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="fields.length < SEARCH_OPTIONS.length">
+      <a class="back-page" (click)="addField()">+ Add New Search</a>
+    </div>
+
+    <div class="row gx-3 gy-3 justify-content-end mt-4">
+      <div class="col-12 col-md-auto">
+        <button mat-raised-button class="w-100" mat-dialog-close tabindex="-1">Cancel</button>
+      </div>
+      <div class="col-12 col-md-auto">
+        <button mat-raised-button color="primary" class="w-100" type="submit">Save</button>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>

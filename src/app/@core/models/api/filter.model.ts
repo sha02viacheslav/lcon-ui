@@ -2,6 +2,7 @@ export interface Filter {
   pageIndex?: number;
   pageSize?: number;
   search?: string;
+  multipleSearch?: string;
   sort?: string;
   order?: string;
   archived?: boolean;

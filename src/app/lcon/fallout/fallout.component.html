@@ -1,9 +1,9 @@
 <div class="page-wrap">
   <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16">
     <app-date-filter #dateFilterComponent (onChange)="handleChangeDateFilter($event)"></app-date-filter>
-    <app-search #searchComponent (onChange)="handleChangeSearch($event)"></app-search>
+    <app-multiple-search #multipleSearchComponent (onChange)="handleChangeSearch($event)" />
     <button mat-raised-button (click)="exportXls()">Export</button>
-    <button *ngIf="search || dateFilter" mat-raised-button (click)="clearFilters()">Clear Filters</button>
+    <button *ngIf="searchItems?.length || dateFilter" mat-raised-button (click)="clearFilters()">Clear Filters</button>
   </div>
 
   <div class="summary-wrap">

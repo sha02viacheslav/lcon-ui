@@ -1,0 +1,20 @@
+@import '../../../../styles/colors', '../../../../styles/config', '../../../../styles/spinners';
+
+$lcon-font: 'Montserrat', Arial, sans-serif;
+
+.back-page {
+  display: inline-flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: $lcon-font;
+  color: $core-blue;
+  cursor: pointer;
+  line-height: 20px;
+  text-decoration: none;
+
+  &:hover {
+    color: $core-blue;
+    text-decoration: underline;
+  }
+}

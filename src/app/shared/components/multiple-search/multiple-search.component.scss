@@ -1,0 +1,12 @@
+:host ::ng-deep {
+  .mat-mdc-chip-graphic {
+    width: unset !important;
+    padding-left: 8px !important;
+  }
+
+  .mat-mdc-chip-avatar {
+    width: unset !important;
+    height: unset !important;
+    font-size: 14px !important;
+  }
+}
