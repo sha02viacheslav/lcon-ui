@@ -5,6 +5,5 @@ export enum SearchKey {
   CARRIER = 'carrier',
   STATUS = 'status',
   NOTES = 'notes',
-  CPM_EMAIL_UPDATE = 'cpmemailupdate',
   PON = 'pon',
 }
