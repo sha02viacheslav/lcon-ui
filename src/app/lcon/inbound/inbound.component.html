@@ -1,7 +1,8 @@
 <div class="page-wrap">
-  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16">
+  <div class="d-flex flex-wrap align-items-center justify-content-center gap-3">
     <app-date-filter #dateFilterComponent (onChange)="handleChangeDateFilter($event)"></app-date-filter>
-    <button *ngIf="dateFilter" mat-raised-button (click)="clearFilters()">Clear Filters</button>
+    <app-multiple-search #multipleSearchComponent (onChange)="handleChangeSearch($event)" />
+    <button *ngIf="searchItems?.length || dateFilter" mat-raised-button (click)="clearFilters()">Clear Filters</button>
   </div>
   <div class="spacer2"></div>
   <div class="mat-headline-3 text title">

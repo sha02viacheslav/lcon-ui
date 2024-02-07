@@ -89,7 +89,11 @@ export class FalloutComponent implements OnInit, AfterViewInit {
     promises.push(
       new Promise((resolve) => {
         this.apiService
-          .getCount({ rawWhere: getSummaryQuery(SummaryType.TOTAL_OUTBOUND), ...this.dateFilter })
+          .getCount({
+            rawWhere: getSummaryQuery(SummaryType.TOTAL_OUTBOUND),
+            multipleSearch: JSON.stringify(this.searchItems),
+            ...this.dateFilter,
+          })
           .subscribe((res) => {
             this.totalAttempted = Number(res.result);
             resolve(res.result);
@@ -99,7 +103,11 @@ export class FalloutComponent implements OnInit, AfterViewInit {
     promises.push(
       new Promise((resolve) => {
         this.apiService
-          .getCount({ rawWhere: getSummaryQuery(SummaryType.TOTAL_SUCCESSFUL), ...this.dateFilter })
+          .getCount({
+            rawWhere: getSummaryQuery(SummaryType.TOTAL_SUCCESSFUL),
+            multipleSearch: JSON.stringify(this.searchItems),
+            ...this.dateFilter,
+          })
           .subscribe((res) => {
             this.totalSuccessful = Number(res.result);
             resolve(res.result);
@@ -109,7 +117,11 @@ export class FalloutComponent implements OnInit, AfterViewInit {
     promises.push(
       new Promise((resolve) => {
         this.apiService
-          .getCount({ rawWhere: getSummaryQuery(SummaryType.TOTAL_FAILED), ...this.dateFilter })
+          .getCount({
+            rawWhere: getSummaryQuery(SummaryType.TOTAL_FAILED),
+            multipleSearch: JSON.stringify(this.searchItems),
+            ...this.dateFilter,
+          })
           .subscribe((res) => {
             this.totalFailed = Number(res.result);
             resolve(res.result);
@@ -174,6 +186,7 @@ export class FalloutComponent implements OnInit, AfterViewInit {
   handleChangeSearch(value: SearchItem[]) {
     this.searchItems = value;
     this.getLconList();
+    this.loadData();
   }
 
   clearFilters() {
@@ -184,6 +197,7 @@ export class FalloutComponent implements OnInit, AfterViewInit {
       this.multipleSearchComponent.clearSearch();
     } else {
       this.getLconList();
+      this.loadData();
     }
   }
 

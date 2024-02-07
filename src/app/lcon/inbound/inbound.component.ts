@@ -5,6 +5,8 @@ import { SummaryType } from '@enums';
 import { getSummaryQuery } from '../../@core/utils';
 import { BlockUIService } from 'ng-block-ui';
 import { DateFilterComponent } from '../../date-filter/date-filter.component';
+import { SearchItem } from '@models';
+import { MultipleSearchComponent } from '../../shared/components/multiple-search/multiple-search.component';
 
 @Component({
   selector: 'app-inbound',
@@ -14,6 +16,7 @@ import { DateFilterComponent } from '../../date-filter/date-filter.component';
 export class InboundComponent implements OnInit {
   readonly SummaryType = SummaryType;
   dateFilter: { start: string; end: string };
+  searchItems: SearchItem[] = [];
 
   chartData: ChartData;
   chartType: ChartType = 'bar';
@@ -36,6 +39,7 @@ export class InboundComponent implements OnInit {
   demarcChange: number;
 
   @ViewChild('dateFilterComponent') dateFilterComponent: DateFilterComponent;
+  @ViewChild('multipleSearchComponent') multipleSearchComponent: MultipleSearchComponent;
 
   constructor(
     private api: ApiService,
@@ -52,7 +56,11 @@ export class InboundComponent implements OnInit {
     promises.push(
       new Promise((resolve) => {
         this.api
-          .getCount({ rawWhere: getSummaryQuery(SummaryType.TOTAL_INBOUND), ...this.dateFilter })
+          .getCount({
+            rawWhere: getSummaryQuery(SummaryType.TOTAL_INBOUND),
+            multipleSearch: JSON.stringify(this.searchItems),
+            ...this.dateFilter,
+          })
           .subscribe((res) => {
             this.totalInbound = Number(res.result);
             resolve(res.result);
@@ -61,16 +69,26 @@ export class InboundComponent implements OnInit {
     );
     promises.push(
       new Promise((resolve) => {
-        this.api.getCount({ rawWhere: getSummaryQuery(SummaryType.NO_CHANGE), ...this.dateFilter }).subscribe((res) => {
-          this.noChange = Number(res.result);
-          resolve(res.result);
-        });
+        this.api
+          .getCount({
+            rawWhere: getSummaryQuery(SummaryType.NO_CHANGE),
+            multipleSearch: JSON.stringify(this.searchItems),
+            ...this.dateFilter,
+          })
+          .subscribe((res) => {
+            this.noChange = Number(res.result);
+            resolve(res.result);
+          });
       }),
     );
     promises.push(
       new Promise((resolve) => {
         this.api
-          .getCount({ rawWhere: getSummaryQuery(SummaryType.LCON_CHANGE), ...this.dateFilter })
+          .getCount({
+            rawWhere: getSummaryQuery(SummaryType.LCON_CHANGE),
+            multipleSearch: JSON.stringify(this.searchItems),
+            ...this.dateFilter,
+          })
           .subscribe((res) => {
             this.lconChange = Number(res.result);
             resolve(res.result);
@@ -80,7 +98,11 @@ export class InboundComponent implements OnInit {
     promises.push(
       new Promise((resolve) => {
         this.api
-          .getCount({ rawWhere: getSummaryQuery(SummaryType.ALCON_CHANGE), ...this.dateFilter })
+          .getCount({
+            rawWhere: getSummaryQuery(SummaryType.ALCON_CHANGE),
+            multipleSearch: JSON.stringify(this.searchItems),
+            ...this.dateFilter,
+          })
           .subscribe((res) => {
             this.alconChange = Number(res.result);
             resolve(res.result);
@@ -90,7 +112,11 @@ export class InboundComponent implements OnInit {
     promises.push(
       new Promise((resolve) => {
         this.api
-          .getCount({ rawWhere: getSummaryQuery(SummaryType.DEMARC_CHANGE), ...this.dateFilter })
+          .getCount({
+            rawWhere: getSummaryQuery(SummaryType.DEMARC_CHANGE),
+            multipleSearch: JSON.stringify(this.searchItems),
+            ...this.dateFilter,
+          })
           .subscribe((res) => {
             this.demarcChange = Number(res.result);
             resolve(res.result);
@@ -122,9 +148,19 @@ export class InboundComponent implements OnInit {
     this.loadData();
   }
 
+  handleChangeSearch(value: SearchItem[]) {
+    this.searchItems = value;
+    this.loadData();
+  }
+
   clearFilters() {
     this.dateFilterComponent.clear();
     this.dateFilter = null;
-    this.loadData();
+    if (this.searchItems) {
+      // Clear search will run loadData()
+      this.multipleSearchComponent.clearSearch();
+    } else {
+      this.loadData();
+    }
   }
 }
