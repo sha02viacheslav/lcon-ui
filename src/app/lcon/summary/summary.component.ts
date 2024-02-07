@@ -6,6 +6,8 @@ import { getSummaryQuery } from '../../@core/utils';
 import * as moment from 'moment/moment';
 import { BlockUIService } from 'ng-block-ui';
 import { DateFilterComponent } from '../../date-filter/date-filter.component';
+import { SearchItem } from '@models';
+import { MultipleSearchComponent } from '../../shared/components/multiple-search/multiple-search.component';
 
 @Component({
   selector: 'app-summary',
@@ -16,6 +18,7 @@ export class SummaryComponent implements OnInit {
   readonly SummaryType = SummaryType;
   currentYear = new Date().getFullYear();
   dateFilter: { start: string; end: string };
+  searchItems: SearchItem[] = [];
 
   chartData: ChartData;
   chartType: ChartType = 'doughnut';
@@ -56,6 +59,7 @@ export class SummaryComponent implements OnInit {
   monthlyTotals: any[];
 
   @ViewChild('dateFilterComponent') dateFilterComponent: DateFilterComponent;
+  @ViewChild('multipleSearchComponent') multipleSearchComponent: MultipleSearchComponent;
 
   constructor(
     private api: ApiService,
@@ -72,10 +76,16 @@ export class SummaryComponent implements OnInit {
     for (let i = 0; i < this.params.size; i++) {
       promises.push(
         new Promise((resolve) => {
-          this.api.getCount({ rawWhere: this.params.get(this.keys.get(i)), ...this.dateFilter }).subscribe((res) => {
-            this.queries.set(this.keys.get(i), Number(res.result));
-            resolve(res.result);
-          });
+          this.api
+            .getCount({
+              rawWhere: this.params.get(this.keys.get(i)),
+              multipleSearch: JSON.stringify(this.searchItems),
+              ...this.dateFilter,
+            })
+            .subscribe((res) => {
+              this.queries.set(this.keys.get(i), Number(res.result));
+              resolve(res.result);
+            });
         }),
       );
     }
@@ -118,10 +128,20 @@ export class SummaryComponent implements OnInit {
     this.loadData();
   }
 
+  handleChangeSearch(value: SearchItem[]) {
+    this.searchItems = value;
+    this.loadData();
+  }
+
   clearFilters() {
     this.dateFilterComponent.clear();
     this.dateFilter = null;
-    this.loadData();
+    if (this.searchItems) {
+      // Clear search will run loadData()
+      this.multipleSearchComponent.clearSearch();
+    } else {
+      this.loadData();
+    }
   }
 
   private async getPastWeekSummary() {

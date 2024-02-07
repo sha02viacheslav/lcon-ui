@@ -1,4 +1,4 @@
-<div class="d-flex align-items-center gap-2">
+<div class="d-flex flex-wrap align-items-center gap-2">
   @for (item of searchItems; track item; let idx = $index) {
     <div class="d-flex flex-column align-content-start">
       <mat-chip-row (removed)="removeSearch(idx)" [editable]="true" (edited)="editSearch(idx, $event)">
