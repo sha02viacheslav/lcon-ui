@@ -13,7 +13,7 @@ import { MatDialogConfig } from '@angular/material/dialog';
 })
 export class MultipleSearchComponent {
   @Output() onChange = new EventEmitter<SearchItem[]>();
-  searchItems: SearchItem[] = [{ searchKey: SearchKey.CARRIER, searchValue: 'Test Carrier' }];
+  searchItems: SearchItem[] = [];
 
   constructor(private dialogService: DialogService) {}
 
