@@ -18,7 +18,7 @@ import { BlockUIService } from 'ng-block-ui';
 import { DateFilterComponent } from '../../date-filter/date-filter.component';
 import { MultipleSearchComponent } from '../../shared/components/multiple-search/multiple-search.component';
 import { ChartComponent } from '../../chart/chart.component';
-import { CHART_COLORS, CHART_LABEL_COLOR } from '../../@core/constants';
+import { CHART_COLORS } from '../../@core/constants';
 
 @Component({
   selector: 'app-fallout',
@@ -49,7 +49,6 @@ export class FalloutComponent implements OnInit, AfterViewInit {
       },
       datalabels: {
         display: true,
-        color: CHART_LABEL_COLOR,
       },
     },
     scales: {

@@ -9,7 +9,7 @@ import { DateFilterComponent } from '../../date-filter/date-filter.component';
 import { SearchItem } from '@models';
 import { MultipleSearchComponent } from '../../shared/components/multiple-search/multiple-search.component';
 import { ChartComponent } from '../../chart/chart.component';
-import { CHART_COLORS, CHART_LABEL_COLOR } from '../../@core/constants';
+import { CHART_COLORS } from '../../@core/constants';
 
 @Component({
   selector: 'app-summary',
@@ -31,7 +31,6 @@ export class SummaryComponent implements OnInit {
       },
       datalabels: {
         display: true,
-        color: CHART_LABEL_COLOR,
       },
     },
   };
