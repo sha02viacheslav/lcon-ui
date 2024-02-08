@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { debounceTime, Subject } from 'rxjs';
+import { SearchItem } from '@models';
 
 @Injectable({
   providedIn: 'root',
@@ -8,6 +9,8 @@ export class SearchService {
   showSearchResult = false;
   search = '';
   searchInput$: Subject<string> = new Subject<string>();
+
+  private searchItems: SearchItem[] = [];
 
   constructor() {
     this.searchInput$.pipe(debounceTime(600)).subscribe(() => {
@@ -37,5 +40,13 @@ export class SearchService {
     this.search = '';
     this.showSearchResult = false;
     window.scrollTo(0, 0);
+  }
+
+  setSearchItems(items: SearchItem[]) {
+    this.searchItems = items;
+  }
+
+  getSearchItems() {
+    return this.searchItems;
   }
 }

@@ -6,13 +6,23 @@
   </div>
   <div id="outbound-data" class="container text">
     <mat-grid-list cols="2" rowHeight="8:1">
-      <mat-grid-tile routerLink="/list/{{ SummaryType.FIRST_OUTBOUND }}" class="mat-headline-2 pointer" rowspan="3">
+      <mat-grid-tile
+        routerLink="/list/{{ SummaryType.FIRST_OUTBOUND }}"
+        [queryParams]="{ keepSearch: true }"
+        class="mat-headline-2 pointer"
+        rowspan="3"
+      >
         <div>
           <span class="total">{{ queries.get('firstOutbound') }}</span>
           <br />Verification<br />Orders
         </div>
       </mat-grid-tile>
-      <mat-grid-tile routerLink="/list/{{ SummaryType.SECOND_OUTBOUND }}" class="mat-headline-2 pointer" rowspan="3">
+      <mat-grid-tile
+        routerLink="/list/{{ SummaryType.SECOND_OUTBOUND }}"
+        [queryParams]="{ keepSearch: true }"
+        class="mat-headline-2 pointer"
+        rowspan="3"
+      >
         <div>
           <span class="total">{{ queries.get('totalOutbound') }}</span>
           <br />Outbound<br />Emails

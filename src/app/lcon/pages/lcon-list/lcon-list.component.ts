@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { HttpErrorResponse } from '@angular/common/http';
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -17,8 +17,8 @@ import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 import { BlockUIService } from 'ng-block-ui';
 import { DateFilterComponent } from '../../../date-filter/date-filter.component';
-import { SearchComponent } from '../../../shared/components/search/search.component';
 import { MultipleSearchComponent } from '../../../shared/components/multiple-search/multiple-search.component';
+import { SearchService } from '../../../@core/services';
 
 @Component({
   selector: 'app-lcon-list',
@@ -32,8 +32,8 @@ import { MultipleSearchComponent } from '../../../shared/components/multiple-sea
     ]),
   ],
 })
-export class LconListComponent implements AfterViewInit {
-  readonly SummaryType = SummaryType;
+export class LconListComponent implements OnInit, AfterViewInit {
+  protected readonly SummaryType = SummaryType;
   summaryType: SummaryType;
   displayedColumns: string[] = [
     'sr',
@@ -79,9 +79,15 @@ export class LconListComponent implements AfterViewInit {
     private snackBar: MatSnackBar,
     private toastr: ToastrService,
     private blockUIService: BlockUIService,
+    private searchService: SearchService,
   ) {}
 
   ngOnInit(): void {
+    const keepSearch = this.route.snapshot.queryParams['keepSearch'] === 'true';
+    if (keepSearch) {
+      this.searchItems = this.searchService.getSearchItems();
+    }
+
     this.route.paramMap.subscribe((params) => {
       if (params.has('summaryType')) {
         const summaryType = params.get('summaryType');

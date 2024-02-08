@@ -9,7 +9,7 @@
     </mat-button-toggle-group>
     <button mat-raised-button (click)="exportXls()">Export</button>
     <app-date-filter #dateFilterComponent (onChange)="handleChangeDateFilter($event)"></app-date-filter>
-    <app-multiple-search #multipleSearchComponent (onChange)="handleChangeSearch($event)" />
+    <app-multiple-search #multipleSearchComponent [searchItems]="searchItems" (onChange)="handleChangeSearch($event)" />
     <button *ngIf="searchItems?.length || dateFilter" mat-raised-button (click)="clearFilters()">Clear Filters</button>
   </div>
 

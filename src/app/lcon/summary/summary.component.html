@@ -22,64 +22,102 @@
       <div class="pointer">
         <!-- Outbound -->
         <mat-grid-list cols="3" rowHeight="6:1" class="outbound total">
-          <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.TOTAL_OUTBOUND }}">
+          <mat-grid-tile
+            colspan="2"
+            routerLink="/list/{{ SummaryType.TOTAL_OUTBOUND }}"
+            [queryParams]="{ keepSearch: true }"
+          >
             Outbound Total
           </mat-grid-tile>
-          <mat-grid-tile routerLink="/list/{{ SummaryType.TOTAL_OUTBOUND }}">
+          <mat-grid-tile routerLink="/list/{{ SummaryType.TOTAL_OUTBOUND }}" [queryParams]="{ keepSearch: true }">
             {{ queries.get('totalOutbound') }}
           </mat-grid-tile>
         </mat-grid-list>
         <mat-grid-list cols="3" rowHeight="6:1">
-          <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.FIRST_OUTBOUND }}">
+          <mat-grid-tile
+            colspan="2"
+            routerLink="/list/{{ SummaryType.FIRST_OUTBOUND }}"
+            [queryParams]="{ keepSearch: true }"
+          >
             1st Notification Sent
           </mat-grid-tile>
-          <mat-grid-tile routerLink="/list/{{ SummaryType.FIRST_OUTBOUND }}">
+          <mat-grid-tile routerLink="/list/{{ SummaryType.FIRST_OUTBOUND }}" [queryParams]="{ keepSearch: true }">
             {{ queries.get('firstOutbound') }}
           </mat-grid-tile>
-          <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.SECOND_OUTBOUND }}">
+          <mat-grid-tile
+            colspan="2"
+            routerLink="/list/{{ SummaryType.SECOND_OUTBOUND }}"
+            [queryParams]="{ keepSearch: true }"
+          >
             2nd Notification Send
           </mat-grid-tile>
-          <mat-grid-tile routerLink="/list/{{ SummaryType.SECOND_OUTBOUND }}">
+          <mat-grid-tile routerLink="/list/{{ SummaryType.SECOND_OUTBOUND }}" [queryParams]="{ keepSearch: true }">
             {{ queries.get('secondOutbound') }}
           </mat-grid-tile>
         </mat-grid-list>
         <!-- Inbound -->
         <mat-grid-list cols="3" rowHeight="6:1" class="inbound total">
-          <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.TOTAL_INBOUND }}"> Inbound Total </mat-grid-tile>
-          <mat-grid-tile routerLink="/list/{{ SummaryType.TOTAL_INBOUND }}">
+          <mat-grid-tile
+            colspan="2"
+            routerLink="/list/{{ SummaryType.TOTAL_INBOUND }}"
+            [queryParams]="{ keepSearch: true }"
+          >
+            Inbound Total
+          </mat-grid-tile>
+          <mat-grid-tile routerLink="/list/{{ SummaryType.TOTAL_INBOUND }}" [queryParams]="{ keepSearch: true }">
             {{ queries.get('totalInbound') }}
           </mat-grid-tile>
         </mat-grid-list>
         <mat-grid-list cols="3" rowHeight="6:1">
-          <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.FIRST_INBOUND }}">
+          <mat-grid-tile
+            colspan="2"
+            routerLink="/list/{{ SummaryType.FIRST_INBOUND }}"
+            [queryParams]="{ keepSearch: true }"
+          >
             1st Notification Responses
           </mat-grid-tile>
-          <mat-grid-tile routerLink="/list/{{ SummaryType.FIRST_INBOUND }}">
+          <mat-grid-tile routerLink="/list/{{ SummaryType.FIRST_INBOUND }}" [queryParams]="{ keepSearch: true }">
             {{ queries.get('firstInbound') }}
           </mat-grid-tile>
-          <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.SECOND_INBOUND }}">
+          <mat-grid-tile
+            colspan="2"
+            routerLink="/list/{{ SummaryType.SECOND_INBOUND }}"
+            [queryParams]="{ keepSearch: true }"
+          >
             2nd Notification Responses
           </mat-grid-tile>
-          <mat-grid-tile routerLink="/list/{{ SummaryType.SECOND_INBOUND }}">
+          <mat-grid-tile routerLink="/list/{{ SummaryType.SECOND_INBOUND }}" [queryParams]="{ keepSearch: true }">
             {{ queries.get('secondInbound') }}
           </mat-grid-tile>
         </mat-grid-list>
         <!-- Unreachable -->
         <mat-grid-list cols="3" rowHeight="6:1" class="unreachable total">
-          <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.TOTAL_UNREACHABLE }}">
+          <mat-grid-tile
+            colspan="2"
+            routerLink="/list/{{ SummaryType.TOTAL_UNREACHABLE }}"
+            [queryParams]="{ keepSearch: true }"
+          >
             Unreachable Total
           </mat-grid-tile>
-          <mat-grid-tile routerLink="/list/{{ SummaryType.TOTAL_UNREACHABLE }}">
+          <mat-grid-tile routerLink="/list/{{ SummaryType.TOTAL_UNREACHABLE }}" [queryParams]="{ keepSearch: true }">
             {{ queries.get('totalUnreachable') }}
           </mat-grid-tile>
         </mat-grid-list>
         <mat-grid-list cols="3" rowHeight="6:1">
-          <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.INVALID }}"> Invalid Email </mat-grid-tile>
-          <mat-grid-tile routerLink="/list/{{ SummaryType.INVALID }}">
+          <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.INVALID }}" [queryParams]="{ keepSearch: true }">
+            Invalid Email
+          </mat-grid-tile>
+          <mat-grid-tile routerLink="/list/{{ SummaryType.INVALID }}" [queryParams]="{ keepSearch: true }">
             {{ queries.get('invalid') }}
           </mat-grid-tile>
-          <mat-grid-tile colspan="2" routerLink="/list/{{ SummaryType.NO_RESPONSE }}"> No Response </mat-grid-tile>
-          <mat-grid-tile routerLink="/list/{{ SummaryType.NO_RESPONSE }}">
+          <mat-grid-tile
+            colspan="2"
+            routerLink="/list/{{ SummaryType.NO_RESPONSE }}"
+            [queryParams]="{ keepSearch: true }"
+          >
+            No Response
+          </mat-grid-tile>
+          <mat-grid-tile routerLink="/list/{{ SummaryType.NO_RESPONSE }}" [queryParams]="{ keepSearch: true }">
             {{ queries.get('noResponse') }}
           </mat-grid-tile>
         </mat-grid-list>

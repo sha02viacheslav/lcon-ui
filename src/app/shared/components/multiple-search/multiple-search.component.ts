@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AddSearchDialogData, SearchItem } from '@models';
 import { DialogService } from '../../../@core/services/dialog/dialog.service';
 import { AddSearchComponent } from '../add-search/add-search.component';
 import { MatChipEditedEvent } from '@angular/material/chips';
-import { SearchKey } from '@enums';
 import { MatDialogConfig } from '@angular/material/dialog';
+import { SearchService } from '../../../@core/services';
 
 @Component({
   selector: 'app-multiple-search',
@@ -12,10 +12,13 @@ import { MatDialogConfig } from '@angular/material/dialog';
   styleUrl: './multiple-search.component.scss',
 })
 export class MultipleSearchComponent {
+  @Input() searchItems: SearchItem[] = [];
   @Output() onChange = new EventEmitter<SearchItem[]>();
-  searchItems: SearchItem[] = [];
 
-  constructor(private dialogService: DialogService) {}
+  constructor(
+    private dialogService: DialogService,
+    private searchService: SearchService,
+  ) {}
 
   addSearch() {
     const config: MatDialogConfig<AddSearchDialogData> = {
@@ -29,14 +32,14 @@ export class MultipleSearchComponent {
       .subscribe((result: SearchItem[]) => {
         if (result) {
           this.searchItems = result;
-          this.onChange.emit(this.searchItems);
+          this.handleChangeSearchItems();
         }
       });
   }
 
   removeSearch(index: number) {
     this.searchItems.splice(index, 1);
-    this.onChange.emit(this.searchItems);
+    this.handleChangeSearchItems();
   }
 
   editSearch(index: number, event: MatChipEditedEvent) {
@@ -46,13 +49,18 @@ export class MultipleSearchComponent {
     } else {
       this.searchItems.splice(index, 1);
     }
-    this.onChange.emit(this.searchItems);
+    this.handleChangeSearchItems();
   }
 
   clearSearch() {
     if (this.searchItems?.length) {
       this.searchItems = [];
-      this.onChange.emit(this.searchItems);
+      this.handleChangeSearchItems();
     }
+  }
+
+  private handleChangeSearchItems() {
+    this.onChange.emit(this.searchItems);
+    this.searchService.setSearchItems(this.searchItems);
   }
 }
