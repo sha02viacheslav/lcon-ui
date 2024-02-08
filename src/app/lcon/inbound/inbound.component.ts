@@ -7,6 +7,8 @@ import { BlockUIService } from 'ng-block-ui';
 import { DateFilterComponent } from '../../date-filter/date-filter.component';
 import { SearchItem } from '@models';
 import { MultipleSearchComponent } from '../../shared/components/multiple-search/multiple-search.component';
+import { ChartComponent } from '../../chart/chart.component';
+import { CHART_COLORS, CHART_LABEL_COLOR } from '../../@core/constants';
 
 @Component({
   selector: 'app-inbound',
@@ -23,6 +25,10 @@ export class InboundComponent implements OnInit {
   chartOptions: ChartOptions = {
     plugins: {
       legend: { display: false },
+      datalabels: {
+        display: true,
+        color: CHART_LABEL_COLOR,
+      },
     },
     scales: {
       x: {
@@ -40,6 +46,7 @@ export class InboundComponent implements OnInit {
 
   @ViewChild('dateFilterComponent') dateFilterComponent: DateFilterComponent;
   @ViewChild('multipleSearchComponent') multipleSearchComponent: MultipleSearchComponent;
+  @ViewChild('chartComponent') chartComponent: ChartComponent;
 
   constructor(
     private api: ApiService,
@@ -136,7 +143,7 @@ export class InboundComponent implements OnInit {
       datasets: [
         {
           label: 'Total',
-          backgroundColor: ['#112F64', '#0D62FF', '#8BE1FA', '#A89FFF'],
+          backgroundColor: CHART_COLORS,
           data: [this.noChange, this.lconChange, this.alconChange, this.demarcChange],
         },
       ],
@@ -162,5 +169,9 @@ export class InboundComponent implements OnInit {
     } else {
       this.loadData();
     }
+  }
+
+  downloadChart() {
+    this.chartComponent.saveChart('inbound-chart.jpeg');
   }
 }

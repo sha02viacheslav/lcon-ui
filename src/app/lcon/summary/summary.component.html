@@ -2,12 +2,13 @@
   <div id="summary-container" class="container">
     <!-- Chart -->
     <div id="summary-pie-chart" class="column chart">
-      <app-chart [type]="chartType" [data]="chartData" [options]="chartOptions"></app-chart>
+      <app-chart #chartComponent [type]="chartType" [data]="chartData" [options]="chartOptions"></app-chart>
     </div>
     <!-- Totals -->
     <div id="summary-totals" class="column text">
       <div class="d-flex flex-wrap align-items-center justify-content-center gap-3">
         <app-date-filter #dateFilterComponent (onChange)="handleChangeDateFilter($event)"></app-date-filter>
+        <button mat-raised-button (click)="downloadChart()">Download Chart</button>
         <app-multiple-search #multipleSearchComponent (onChange)="handleChangeSearch($event)" />
         <button *ngIf="searchItems?.length || dateFilter" mat-raised-button (click)="clearFilters()">
           Clear Filters

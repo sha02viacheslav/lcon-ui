@@ -8,6 +8,8 @@ import { BlockUIService } from 'ng-block-ui';
 import { DateFilterComponent } from '../../date-filter/date-filter.component';
 import { SearchItem } from '@models';
 import { MultipleSearchComponent } from '../../shared/components/multiple-search/multiple-search.component';
+import { ChartComponent } from '../../chart/chart.component';
+import { CHART_COLORS, CHART_LABEL_COLOR } from '../../@core/constants';
 
 @Component({
   selector: 'app-summary',
@@ -26,6 +28,10 @@ export class SummaryComponent implements OnInit {
     plugins: {
       legend: {
         position: 'bottom',
+      },
+      datalabels: {
+        display: true,
+        color: CHART_LABEL_COLOR,
       },
     },
   };
@@ -60,6 +66,7 @@ export class SummaryComponent implements OnInit {
 
   @ViewChild('dateFilterComponent') dateFilterComponent: DateFilterComponent;
   @ViewChild('multipleSearchComponent') multipleSearchComponent: MultipleSearchComponent;
+  @ViewChild('chartComponent') chartComponent: ChartComponent;
 
   constructor(
     private api: ApiService,
@@ -112,7 +119,7 @@ export class SummaryComponent implements OnInit {
       datasets: [
         {
           label: 'Total',
-          backgroundColor: ['#0D62FF', '#8BE1FA', '#A89FFF'],
+          backgroundColor: CHART_COLORS,
           data: [
             this.queries.get('totalOutbound'),
             this.queries.get('totalInbound'),
@@ -142,6 +149,10 @@ export class SummaryComponent implements OnInit {
     } else {
       this.loadData();
     }
+  }
+
+  downloadChart() {
+    this.chartComponent.saveChart('summary-chart.jpeg');
   }
 
   private async getPastWeekSummary() {
