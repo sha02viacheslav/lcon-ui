@@ -9,7 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as XLSX from 'xlsx';
 import { SummaryType } from '@enums';
-import { Lcon } from '@models';
+import { Lcon, SearchItem } from '@models';
 import { debounceTime, merge } from 'rxjs';
 import { getSummaryQuery, sanitizeData } from 'src/app/@core/utils';
 import { ApiService } from 'src/app/api.service';
@@ -18,6 +18,7 @@ import * as moment from 'moment';
 import { BlockUIService } from 'ng-block-ui';
 import { DateFilterComponent } from '../../../date-filter/date-filter.component';
 import { SearchComponent } from '../../../shared/components/search/search.component';
+import { MultipleSearchComponent } from '../../../shared/components/multiple-search/multiple-search.component';
 
 @Component({
   selector: 'app-lcon-list',
@@ -49,7 +50,7 @@ export class LconListComponent implements AfterViewInit {
   totalCnt: number;
   dateFilter: { start: string; end: string };
   typeOptions: { value: SummaryType; label: string }[] = [];
-  search = '';
+  searchItems: SearchItem[] = [];
 
   titles: { [key: string]: string } = {
     [SummaryType.TOTAL_OUTBOUND]: 'Outbound Details - All',
@@ -70,7 +71,7 @@ export class LconListComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('dateFilterComponent') dateFilterComponent: DateFilterComponent;
-  @ViewChild('searchComponent') searchComponent: SearchComponent;
+  @ViewChild('multipleSearchComponent') multipleSearchComponent: MultipleSearchComponent;
 
   constructor(
     private apiService: ApiService,
@@ -155,17 +156,17 @@ export class LconListComponent implements AfterViewInit {
     this.getLconList();
   }
 
-  handleChangeSearch(value: string) {
-    this.search = value;
+  handleChangeSearch(value: SearchItem[]) {
+    this.searchItems = value;
     this.getLconList();
   }
 
   clearFilters() {
     this.dateFilterComponent.clear();
     this.dateFilter = null;
-    if (this.search) {
+    if (this.searchItems) {
       // Clear search will run getLconList()
-      this.searchComponent.clearSearch();
+      this.multipleSearchComponent.clearSearch();
     } else {
       this.getLconList();
     }
@@ -175,7 +176,7 @@ export class LconListComponent implements AfterViewInit {
     this.blockUIService.start('APP', `Loading...`);
     this.apiService
       .getLconList({
-        search: this.search || '',
+        multipleSearch: JSON.stringify(this.searchItems),
         pageIndex: this.paginator?.pageIndex || 1,
         pageSize: this.paginator?.pageSize || 10,
         sort: this.sort?.active || 'enddate',
@@ -204,7 +205,7 @@ export class LconListComponent implements AfterViewInit {
     this.blockUIService.start('APP', `Loading...`);
     this.apiService
       .getLconList({
-        search: this.search || '',
+        multipleSearch: JSON.stringify(this.searchItems),
         sort: this.sort?.active || 'enddate',
         order: this.sort?.direction || 'desc',
         ...this.dateFilter,

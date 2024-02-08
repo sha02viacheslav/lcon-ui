@@ -1,7 +1,7 @@
 <div class="page-wrap">
   <app-back-link defaultBackTo="/" style="justify-content: left"></app-back-link>
   <h1>{{ titles[summaryType] }}</h1>
-  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16">
+  <div class="d-flex flex-wrap align-items-center justify-content-center gap-3">
     <mat-button-toggle-group [(ngModel)]="summaryType" (change)="handleChangeType($event)" appearance="legacy">
       <mat-button-toggle *ngFor="let option of typeOptions" [value]="option.value">{{
         option.label
@@ -9,15 +9,15 @@
     </mat-button-toggle-group>
     <button mat-raised-button (click)="exportXls()">Export</button>
     <app-date-filter #dateFilterComponent (onChange)="handleChangeDateFilter($event)"></app-date-filter>
-    <app-search #searchComponent (onChange)="handleChangeSearch($event)"></app-search>
-    <button *ngIf="search || dateFilter" mat-raised-button (click)="clearFilters()">Clear Filters</button>
+    <app-multiple-search #multipleSearchComponent (onChange)="handleChangeSearch($event)" />
+    <button *ngIf="searchItems?.length || dateFilter" mat-raised-button (click)="clearFilters()">Clear Filters</button>
   </div>
 
   <div class="table-container">
     <table
       mat-table
       [dataSource]="dataSource"
-      multiTemplateDataRows
+      [multiTemplateDataRows]="true"
       class="mat-elevation-z8"
       matSort
       matSortActive="sr"
