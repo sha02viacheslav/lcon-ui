@@ -30,9 +30,6 @@ export class InboundComponent implements OnInit {
       },
     },
     scales: {
-      x: {
-        ticks: { display: false },
-      },
       y: { beginAtZero: true },
     },
   };
