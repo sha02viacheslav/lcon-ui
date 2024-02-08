@@ -17,6 +17,7 @@ import { SummaryType } from '@enums';
 import { BlockUIService } from 'ng-block-ui';
 import { DateFilterComponent } from '../../date-filter/date-filter.component';
 import { MultipleSearchComponent } from '../../shared/components/multiple-search/multiple-search.component';
+import { ChartComponent } from '../../chart/chart.component';
 
 @Component({
   selector: 'app-fallout',
@@ -45,6 +46,10 @@ export class FalloutComponent implements OnInit, AfterViewInit {
       legend: {
         display: false,
       },
+      datalabels: {
+        display: true,
+        color: '#000',
+      },
     },
     scales: {
       y: { beginAtZero: true },
@@ -59,6 +64,7 @@ export class FalloutComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('dateFilterComponent') dateFilterComponent: DateFilterComponent;
   @ViewChild('multipleSearchComponent') multipleSearchComponent: MultipleSearchComponent;
+  @ViewChild('chartComponent') chartComponent: ChartComponent;
 
   constructor(
     private apiService: ApiService,
@@ -199,6 +205,10 @@ export class FalloutComponent implements OnInit, AfterViewInit {
       this.getLconList();
       this.loadData();
     }
+  }
+
+  downloadChart() {
+    this.chartComponent.saveChart('fallout-chart.jpeg');
   }
 
   exportXls() {
